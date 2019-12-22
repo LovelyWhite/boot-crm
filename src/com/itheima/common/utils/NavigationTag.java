@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 /**
  * 显示格式：首页 上一页 1 2 3 4 5下一页 尾页
@@ -26,8 +27,7 @@ public class NavigationTag extends TagSupport {
 	@Override
 	public int doStartTag() throws JspException {
 		JspWriter writer = pageContext.getOut();
-		HttpServletRequest request = 
-				(HttpServletRequest) pageContext.getRequest();
+		HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 		Page page = (Page) request.getAttribute(bean);
 		if (page == null)
 			return SKIP_BODY;
@@ -47,42 +47,41 @@ public class NavigationTag extends TagSupport {
 			if (page.getPage() > 1) {
 				String preUrl = append(url, "page", page.getPage() - 1);
 				preUrl = append(preUrl, "rows", page.getSize());
-		writer.print("<li><a href=\"" + homeUrl + "\">" + "首页</a></li>");
-		writer.print("<li><a href=\"" + preUrl + "\">" + "上一页</a></li>");
+				writer.print("<li><a href=\"" + homeUrl + "\">" + "首页</a></li>");
+				writer.print("<li><a href=\"" + preUrl + "\">" + "上一页</a></li>");
 			} else {
-writer.print("<li class=\"disabled\"><a href=\"#\">" + "首页 </a></li>");
-writer.print("<li class=\"disabled\"><a href=\"#\">" + "上一页 </a></li>");
+				writer.print("<li class=\"disabled\"><a href=\"#\">" + "首页 </a></li>");
+				writer.print("<li class=\"disabled\"><a href=\"#\">" + "上一页 </a></li>");
 			}
 			// 显示当前页码的前2页码和后两页码
 			// 若1 则 1 2 3 4 5, 若2 则 1 2 3 4 5, 若3 则1 2 3 4 5,
 			// 若4 则 2 3 4 5 6 ,若10 则 8 9 10 11 12
-			int indexPage =1;
-			if(page.getPage() - 2 <=0){
-				indexPage=1;
-			}else if(pageCount-page.getPage() <=2){
-				indexPage=pageCount-4;
-			}else{
-				indexPage= page.getPage() - 2;
+			int indexPage = 1;
+			if (page.getPage() - 2 <= 0) {
+				indexPage = 1;
+			} else if (pageCount - page.getPage() <= 2) {
+				indexPage = pageCount - 4;
+			} else {
+				indexPage = page.getPage() - 2;
 			}
-    for (int i= 1;i <= number && indexPage <= pageCount;indexPage++,i++){
+			for (int i = 1; i <= number && indexPage <= pageCount; indexPage++, i++) {
 				if (indexPage == page.getPage()) {
-			writer.print("<li class=\"active\"><a href=\"#\">" + indexPage
-				+"<spanclass=\"sr-only\"></span></a></li>");
+					writer.print("<li class=\"active\"><a href=\"#\">" + indexPage + "<span class=\"sr-only\"></span></a></li>");
 					continue;
 				}
 				String pageUrl = append(url, "page", indexPage);
 				pageUrl = append(pageUrl, "rows", page.getSize());
-writer.print("<li><a href=\"" + pageUrl + "\">" + indexPage + "</a></li>");
+				writer.print("<li><a href=\"" + pageUrl + "\">" + indexPage + "</a></li>");
 			}
 			// 显示“下一页”按钮
 			if (page.getPage() < pageCount) {
 				String nextUrl = append(url, "page", page.getPage() + 1);
 				nextUrl = append(nextUrl, "rows", page.getSize());
-		writer.print("<li><a href=\"" + nextUrl + "\">" + "下一页</a></li>");
-		writer.print("<li><a href=\"" + backUrl + "\">" + "尾页</a></li>");
+				writer.print("<li><a href=\"" + nextUrl + "\">" + "下一页</a></li>");
+				writer.print("<li><a href=\"" + backUrl + "\">" + "尾页</a></li>");
 			} else {
-writer.print("<li class=\"disabled\"><a href=\"#\">" + "下一页</a></li>");
-writer.print("<li class=\"disabled\"><a href=\"#\">" + "尾页</a></li>");
+				writer.print("<li class=\"disabled\"><a href=\"#\">" + "下一页</a></li>");
+				writer.print("<li class=\"disabled\"><a href=\"#\">" + "尾页</a></li>");
 			}
 			writer.print("</nav>");
 		} catch (IOException e) {
@@ -101,7 +100,7 @@ writer.print("<li class=\"disabled\"><a href=\"#\">" + "尾页</a></li>");
 		if (url == null || url.trim().length() == 0) {
 			return "";
 		}
-		if (url.indexOf("?") == -1) {
+		if (!url.contains("?")) {
 			url = url + "?" + key + "=" + value;
 		} else {
 			if (url.endsWith("?")) {
@@ -115,8 +114,7 @@ writer.print("<li class=\"disabled\"><a href=\"#\">" + "尾页</a></li>");
 	/**
 	 * 为url 添加翻页请求参数
 	 */
-	private String resolveUrl(String url, 
-        javax.servlet.jsp.PageContext pageContext) throws JspException {
+	private String resolveUrl(String url, PageContext pageContext) throws JspException {
 		Map params = pageContext.getRequest().getParameterMap();
 		for (Object key : params.keySet()) {
 			if ("page".equals(key) || "rows".equals(key)){
@@ -149,4 +147,4 @@ writer.print("<li class=\"disabled\"><a href=\"#\">" + "尾页</a></li>");
 	public void setNumber(int number) {
 		this.number = number;
 	}
-}    
+}

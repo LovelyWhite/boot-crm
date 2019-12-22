@@ -10,26 +10,17 @@ import com.itheima.core.po.User;
  */
 public class LoginInterceptor implements HandlerInterceptor {
 	@Override
-	public boolean preHandle(HttpServletRequest request, 
-			HttpServletResponse response, Object handler)
-			throws Exception {
-		// 获取请求的URL
+	public boolean preHandle(HttpServletRequest request,HttpServletResponse response, Object handler) throws Exception {
 		String url = request.getRequestURI();
-		// URL:除了登录请求外，其他的URL都进行拦截控制
-		if (url.indexOf("/login.action") >= 0) {
+		if (url.contains("request/login")) {
 			return true;
 		}
-		// 获取Session
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("USER_SESSION");
-		// 判断Session中是否有用户数据，如果有，则返回true,继续向下执行
 		if (user != null) {
 			return true;
 		}
-		// 不符合条件的给出提示信息，并转发到登录页面
-		request.setAttribute("msg", "您还没有登录，请先登录！");
-		request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
-		                                        .forward(request, response);
+		response.sendError(403,"未登录");
 		return false;
 	}
 	@Override

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>登录</title>
+    <meta http-equiv=Content-Type content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src= "./js/jquery-1.11.3.min.js"></script>
+    <script src= "./js/sweetalert.min.js"></script>
+    <script>
+
+        function check(){
+            var usercode = $("#usercode").val();
+            var password = $("#password").val();
+            if(usercode=== "" || password=== ""){
+                swal("密码不能为空");
+                return false;
+            }
+            else
+            {
+                $.ajax({
+                    url:"./request/login.do",
+                    method:"post",
+                    data:{
+                        usercode:usercode,
+                        password:password
+                    }
+                }).then((res)=> {
+                    if(res==="success")
+                    {
+                        window.location.href="./content.html"
+                    }
+                    else
+                    {
+                        swal("密码错误")
+                    }
+                })
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<div>
+    <img class="center-block img-responsive" src="./images/title.png">
+</div>
+<div class="container max-width">
+    <form id="login">
+        <div class="input-group">
+            <span class="input-group-addon" id="usercode_descri">账号</span>
+            <input class="form-control" id="usercode" type="text" name="usercode" aria-describedby="usercode_descri" />
+        </div>
+        <div class="input-group inter-top">
+            <span class="input-group-addon" id="password_descri">密码</span>
+            <input class="form-control" id="password" type="password" name="password" aria-describedby="password_descri"/>
+        </div>
+    </form>
+    <button class="btn btn-default pull-right inter-top" onclick="check();">登录</button>
+</div>
+</body>
+</html>
