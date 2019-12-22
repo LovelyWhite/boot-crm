@@ -19,6 +19,10 @@
                     customerFrom:["电话营销","网络营销","老客户"],
                     custIndustry:["教育培训","对外贸易","电子商务","酒店旅游","房地产"],
                     custLevel:["普通客户","VIP"],
+                    cust:[],
+                    size:0,
+                    page:1,
+                    total:0,
                     searching:{
                         customerName:"",
                         customerFromSelect:"",
@@ -35,7 +39,11 @@
                             this.searching
                         ).then(res=>
                         {
-                            console.log(res)
+                            this.size = res.data.size;
+                            this.page = res.data.page;
+                            this.total= res.data.total;
+                            this.cust =res.data.rows;
+
                         })
                     }
 
@@ -450,26 +458,42 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${page.rows}" var="row">
-                                <tr>
-                                    <td>${row.cust_id}</td>
-                                    <td>${row.cust_name}</td>
-                                    <td>${row.cust_source}</td>
-                                    <td>${row.cust_industry}</td>
-                                    <td>${row.cust_level}</td>
-                                    <td>${row.cust_phone}</td>
-                                    <td>${row.cust_mobile}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#customerEditDialog" onclick= "editCustomer(${row.cust_id})">修改</a>
-                                        <a href="#" class="btn btn-danger btn-xs" onclick="deleteCustomer(${row.cust_id})">删除</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                            <tr v-for="item in cust">
+                                <td>{{item.cust_id}}</td>
+                                <td>{{item.cust_name}}</td>
+                                <td>{{item.cust_source}}</td>
+                                <td>{{item.cust_industry}}</td>
+                                <td>{{item.cust_level}}</td>
+                                <td>{{item.cust_phone}}</td>
+                                <td>{{item.cust_mobile}}</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#customerEditDialog" onclick= "editCustomer(${row.cust_id})">修改</a>
+                                    <a href="#" class="btn btn-danger btn-xs" @onclick="deleteCustomer(item.cust_id)">删除</a>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                         <a href="#" class="btn btn-primary btn-sm pull-right inter-top" data-toggle="modal" data-target="#newCustomerDialog" onclick="clearCustomer()">新建</a>
                         <div class="col-md-12 text-right">
-                            <itheima:page url="${pageContext.request.contextPath }/customer/list.action" />
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    </li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li>
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

@@ -49,8 +49,6 @@
 		<servlet-name>crm</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-
-
 	<!-- 系统默认页面 -->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
