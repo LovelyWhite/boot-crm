@@ -18,9 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerDao customerDao;
 	// 客户列表
-	public Page<Customer> findCustomerList(Integer page, Integer rows, 
-			String custName,  String custSource,String custIndustry,
-                                                          String custLevel) {
+	public Page<Customer> findCustomerList(Integer page, Integer rows,String custName,  String custSource,String custIndustry,String custLevel) {
 		// 创建客户对象
          Customer customer = new Customer();
 		// 判断客户名称
@@ -44,8 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
 		// 每页数
 		customer.setRows(rows);
 		// 查询客户列表
-		List<Customer> customers = 
-                            customerDao.selectCustomerList(customer);
+		List<Customer> customers = customerDao.selectCustomerList(customer);
 		// 查询客户列表总记录数
 		Integer count = customerDao.selectCustomerListCount(customer);
 		// 创建Page返回对象

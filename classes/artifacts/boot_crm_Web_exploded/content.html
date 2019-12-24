@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<html xmlns:v-on="http://www.w3.org/1999/xhtml"
+	  xmlns:v-bind="http://www.w3.org/1999/xhtml" lang="zh-cn">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Boot-CRM</title>
@@ -13,42 +14,165 @@
     <script src="./js/axios.min.js"></script>
     <script type="text/javascript">
         window.onload=function () {
-            new Vue({
-                el: "#customer",
-                data: {
-                    customerFrom:["电话营销","网络营销","老客户"],
-                    custIndustry:["教育培训","对外贸易","电子商务","酒店旅游","房地产"],
-                    custLevel:["普通客户","VIP"],
-                    cust:[],
-                    size:0,
-                    page:1,
-                    total:0,
-                    searching:{
-                        customerName:"",
-                        customerFromSelect:"",
-                        custIndustrySelect:"",
-                        custLevelSelect:""
-                    },
+           let customer = new Vue({
+			   el: "#customer",
+			   data: {
+				   customerFrom: ["电话营销", "网络营销", "老客户"],
+				   custIndustry: ["教育培训", "对外贸易", "电子商务", "酒店旅游", "房地产"],
+				   custLevel: ["普通客户", "VIP"],
+				   cust: [],
+				   size: 0,
+				   total: 0,
+				   totalPage: 0,
+				   pages: [],
+				   searching: {
+					   page: 1,
+					   customerName: "",
+					   customerFromSelect: "",
+					   custIndustrySelect: "",
+					   custLevelSelect: ""
+				   },
+				   customerTemp: {
+					   edit_cust_id: "",
+					   edit_customerName: "",
+					   edit_customerFrom: "",
+					   edit_custIndustry: "",
+					   edit_custLevel: "",
+					   edit_linkMan: "",
+					   edit_phone: "",
+					   edit_mobile: "",
+					   edit_zipcode: "",
+					   edit_address: "",
+				   }
+			   },
+			   methods: {
+				   search(index) {
+					   if (index !== undefined) {
+						   this.searching.page = index
+					   }
+					   axios.post('./customer/list.do',"page=" + this.searching.page +
+							   "&custName=" + customer.searching.customerName +
+							   "&custSource=" + customer.searching.customerFromSelect +
+							   "&custIndustry=" + customer.searching.custIndustrySelect +
+							   "&custLevel=" + customer.searching.custLevelSelect)
+							   .then(res => {
+								   this.size = res.data.size;
+								   this.searching.page = res.data.page;
+								   this.total = res.data.total;
+								   this.cust = res.data.rows;
+								   this.totalPage = Math.floor(this.total / this.size);
+								   let rest = this.total % this.size;
+								   if (rest > 0) this.totalPage++;
+								   let localPages = [];
+								   for (let i = 1; i <= this.totalPage; i++) {
+									   localPages.push(i);
+								   }
+								   if (this.totalPage > 5) {
+									   if (this.searching.page > this.totalPage - 2) {
+										   this.pages = localPages.slice(-5);
+									   } else if (this.searching.page < 3) {
+										   this.pages = localPages.slice(0, 5);
+									   } else {
+										   this.pages = localPages.slice(this.searching.page - 3, this.searching.page + 2);
+									   }
+								   } else
+									   this.pages = localPages.slice(0, localPages.length);
+							   })
+				   },
+				   nextPage() {
+					   if (this.searching.page < this.totalPage - 1) {
+						   this.searching.page++
+					   }
+					   this.search()
+				   },
+				   prevPage() {
+					   if (this.searching.page > 1) {
+						   this.searching.page--
+					   }
+					   this.search()
+				   },
+				   // 创建客户
+				   createCustomer() {
+					   axios.post('./customer/create.do', $("#new_customer_form").serialize()).then(res=>
+					   {
+						   if (res.data === "OK") {
+							   swal("更新成功").then(() => {
+								   window.location.reload();
+							   })
+						   } else {
+							   swal("更新失败").then(() => {
+								   window.location.reload();
+							   })
+						   }
+					   });
+				   },
+				   editCustomer(index) {
+					   this.customerTemp= {
+						   edit_cust_id: customer.cust[index].cust_id,
+						   edit_customerName: customer.cust[index].cust_name,
+						   edit_customerFrom: customer.cust[index].cust_source,
+						   edit_custIndustry: customer.cust[index].cust_industry,
+						   edit_custLevel: customer.cust[index].cust_level,
+						   edit_linkMan: customer.cust[index].cust_linkman,
+						   edit_phone: customer.cust[index].cust_phone,
+						   edit_mobile: customer.cust[index].cust_mobile,
+						   edit_zipcode: customer.cust[index].cust_zipcode,
+						   edit_address: customer.cust[index].cust_address,
+					   }
+				   },
+				   // 执行修改客户操作
+				   updateCustomer() {
+				   	axios.post('./customer/update.do', $("#edit_customer_form").serialize()).then(res=>
+					{
+						if (res.data === "OK") {
+							swal("更新成功").then(() => {
+								window.location.reload();
+							})
+						} else {
+							swal("更新失败").then(() => {
+								window.location.reload();
+							})
+						}
+					});
 
-                },
-                methods: {
-                    search()
-                    {
-                        axios.post(
-                            './customer/list.do',
-                            this.searching
-                        ).then(res=>
-                        {
-                            this.size = res.data.size;
-                            this.page = res.data.page;
-                            this.total= res.data.total;
-                            this.cust =res.data.rows;
-
-                        })
-                    }
-
-                }
-            });
+				   },
+				   // 删除客户
+				   deleteCustomer(id) {
+					   swal("确实要删除该客户吗?", {
+						   dangerMode: true,
+						   buttons: true,
+					   }).then(() => {
+						   axios.post('./customer/delete.do', "id="+id)
+								   .then(res => {
+									   if (res.data === "OK") {
+										   swal("删除成功").then(() => {
+											   window.location.reload();
+										   })
+									   } else {
+										   swal("删除失败").then(() => {
+											   window.location.reload();
+										   })
+									   }
+								   })
+					   })
+				   },
+				   clearCustomer() {
+					   this.customerTemp= {
+						   edit_cust_id: "",
+						   edit_customerName: "",
+						   edit_customerFrom: "",
+						   edit_custIndustry: "",
+						   edit_custLevel: "",
+						   edit_linkMan: "",
+						   edit_phone: "",
+						   edit_mobile: "",
+						   edit_zipcode: "",
+						   edit_address: "",
+					   }
+				   }
+			   }
+		   });
+           customer.search();
             new Vue({
                 el: "#product",
                 data: {},
@@ -56,17 +180,7 @@
 
             });
         };
-        function clearCustomer() {
-            $("#new_customerName").val("");
-            $("#new_customerFrom").val("");
-            $("#new_custIndustry").val("");
-            $("#new_custLevel").val("");
-            $("#new_linkMan").val("");
-            $("#new_phone").val("");
-            $("#new_mobile").val("");
-            $("#new_zipcode").val("");
-            $("#new_address").val("");
-        }
+
         function logout() {
             $.ajax({
                 url:"./request/logout.do",
@@ -79,76 +193,6 @@
 
             }).catch(()=> {
                 swal("退出失败");
-            })
-        }
-        // 创建客户
-        function createCustomer() {
-            $.post("<%=basePath%>customer/create.action",
-                $("#new_customer_form").serialize(),function(data){
-                    if(data ==="OK"){
-                        swal("创建成功").then(()=>{
-                            window.location.reload();
-                        })
-                    }else{
-                        swal("创建失败").then(()=>{
-                            window.location.reload();
-                        })
-                    }
-                });
-        }
-        // 通过id获取修改的客户信息
-        function editCustomer(id) {
-            $.ajax({
-                type:"get",
-                url:"<%=basePath%>customer/getCustomerById.action",
-                data:{"id":id},
-                success:function(data) {
-                    $("#edit_cust_id").val(data.cust_id);
-                    $("#edit_customerName").val(data.cust_name);
-                    $("#edit_customerFrom").val(data.cust_source);
-                    $("#edit_custIndustry").val(data.cust_industry);
-                    $("#edit_custLevel").val(data.cust_level);
-                    $("#edit_linkMan").val(data.cust_linkman);
-                    $("#edit_phone").val(data.cust_phone);
-                    $("#edit_mobile").val(data.cust_mobile);
-                    $("#edit_zipcode").val(data.cust_zipcode);
-                    $("#edit_address").val(data.cust_address);
-
-                }
-            });
-        }
-        // 执行修改客户操作
-        function updateCustomer() {
-            $.post("<%=basePath%>customer/update.action",$("#edit_customer_form").serialize(),function(data){
-                if(data ==="OK"){
-                    swal("更新成功").then(()=>{
-                        window.location.reload();
-                    })
-                }else{
-                    swal("更新失败").then(()=>{
-                        window.location.reload();
-                    })
-                }
-            });
-        }
-        // 删除客户
-        function deleteCustomer(id) {
-            swal("确实要删除该客户吗?", {
-                dangerMode: true,
-                buttons: true,
-            }).then(() => {
-                $.post("<%=basePath%>customer/delete.action", {"id": id},
-                    function (data) {
-                        if (data === "OK") {
-                            swal("删除成功").then(() => {
-                                window.location.reload();
-                            })
-                        } else {
-                            swal("删除失败").then(() => {
-                                window.location.reload();
-                            })
-                        }
-                    });
             })
         }
     </script>
@@ -167,31 +211,6 @@
 	</div>
 	  <div id="navbar" class="collapse navbar-collapse">
 		  <ul class="nav navbar-top-links navbar-right">
-			  <li class="dropdown">
-				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					  <i class="fa fa-envelope fa-fw"></i>
-					  <i class="fa fa-caret-down"></i>
-				  </a>
-				  <ul class="dropdown-menu dropdown-messages">
-					  <li>
-						  <a href="#">
-							  <div>
-								  <strong>张经理</strong> <span class="pull-right text-muted">
-								<em>昨天</em>
-							</span>
-							  </div>
-							  <div>今天晚上开会，讨论一下下个月工作的事...</div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a class="text-center" href="#">
-							  <strong>查看全部消息</strong>
-							  <i class="fa fa-angle-right"></i>
-						  </a>
-					  </li>
-				  </ul>
-			  </li>
 			  <li class="dropdown">
 				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					  <i class="fa fa-tasks fa-fw"></i>
@@ -294,56 +313,6 @@
 			  </li>
 			  <li class="dropdown">
 				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					  <i class="fa fa-bell fa-fw"></i>
-					  <i class="fa fa-caret-down"></i>
-				  </a>
-				  <ul class="dropdown-menu dropdown-alerts">
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-comment fa-fw"></i> 新回复
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-envelope fa-fw"></i> 新消息
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-tasks fa-fw"></i> 新任务
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-upload fa-fw"></i> 服务器重启
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a class="text-center" href="#">
-							  <strong>查看所有提醒</strong>
-							  <i class="fa fa-angle-right"></i>
-						  </a>
-					  </li>
-				  </ul>
-			  </li>
-			  <li class="dropdown">
-				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					  <i class="fa fa-user fa-fw"></i>
 					  <i class="fa fa-caret-down"></i>
 				  </a>
@@ -366,35 +335,23 @@
 		  <div class="navbar-default sidebar" role="navigation">
 			  <div class="sidebar-nav navbar-collapse">
 				  <ul class="nav" id="side-menu">
-					  <li class="sidebar-search">
-						  <div class="input-group custom-search-form">
-							  <input type="text" class="form-control" placeholder="查询内容...">
-							  <span class="input-group-btn">
-							<button class="btn btn-default" type="button">
-								<i class="fa fa-search" style="padding: 3px 0 3px 0;"></i>
-							</button>
-						</span>
-						  </div>
-					  </li>
 					  <li>
 						  <a data-toggle="tab" href="#customer">
-							  <%--${pageContext.request.contextPath }/customer/list.action--%>
 							  <i class="fa fa-edit fa-fw"></i> 客户管理
 						  </a>
 					  </li>
 					  <li>
 						  <a data-toggle="tab" href="#product">
-							  <%--${pageContext.request.contextPath }/product/list.action--%>
 							  <i class="fa fa-dashboard fa-fw" ></i> 产品管理
 						  </a>
 					  </li>
 					  <li>
-						  <a data-toggle="tab" href="#">
+						  <a data-toggle="tab" href="#view">
 							  <i class="fa fa-tasks fa-fw" aria-hidden="true"></i> 资源可视化
 						  </a>
 					  </li>
 					  <li>
-						  <a data-toggle="tab" href="#">
+						  <a data-toggle="tab" href="#order">
 							  <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i> 工单系统
 						  </a>
 					  </li>
@@ -403,7 +360,6 @@
 		  </div>
 	  </div>
   </nav>
-
 	<div id="page-wrapper">
         <div style="padding-top: 20px"></div>
         <div class="tab-content">
@@ -436,7 +392,7 @@
                                     <option v-for="item in custLevel">{{item}}</option>
                                 </select>
                             </div>
-                            <button class="btn btn-primary btn-sm pull-right" v-on:click="search">查询</button>
+                            <button class="btn btn-primary btn-sm pull-right" v-on:click="search(undefined)">查询</button>
                         </div>
 
                     </div>
@@ -458,7 +414,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="item in cust">
+                            <tr v-for="(item,index) in cust">
                                 <td>{{item.cust_id}}</td>
                                 <td>{{item.cust_name}}</td>
                                 <td>{{item.cust_source}}</td>
@@ -467,28 +423,26 @@
                                 <td>{{item.cust_phone}}</td>
                                 <td>{{item.cust_mobile}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#customerEditDialog" onclick= "editCustomer(${row.cust_id})">修改</a>
-                                    <a href="#" class="btn btn-danger btn-xs" @onclick="deleteCustomer(item.cust_id)">删除</a>
+                                    <a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#customerEditDialog" @click= "editCustomer(index)">修改</a>
+                                    <a href="#" class="btn btn-danger btn-xs" @click="deleteCustomer(item.cust_id)">删除</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <a href="#" class="btn btn-primary btn-sm pull-right inter-top" data-toggle="modal" data-target="#newCustomerDialog" onclick="clearCustomer()">新建</a>
+                        <a href="#" class="btn btn-primary btn-sm pull-right inter-top" data-toggle="modal" data-target="#newCustomerDialog" @click="clearCustomer">新建</a>
                         <div class="col-md-12 text-right">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
-                                    <li>
-                                        <a href="#" aria-label="Previous">
+                                    <li v-bind:class="{disabled:searching.page==1}">
+                                        <a role="button" @click="prevPage" aria-label="Previous">
                                             <span aria-hidden="true">上一页</span>
                                         </a>
                                     </li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li>
-                                        <a href="#" aria-label="Next">
+                                    <li v-for="item in pages" v-bind:class="{active:searching.page==item}" >
+										<span role="button" @click="search(item)">{{item}}</span>
+									</li>
+                                    <li v-bind:class="{disabled:searching.page==totalPage}" >
+										<a role="button" @click="nextPage" aria-label="Next">
                                             <span aria-hidden="true">下一页</span>
                                         </a>
                                     </li>
@@ -497,200 +451,191 @@
                         </div>
                     </div>
                 </div>
+				<div class="modal fade" id="newCustomerDialog" tabindex="-1" role="dialog"
+					 aria-labelledby="newCustom">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="newCustom">新建客户信息</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" id="new_customer_form">
+									<div class="form-group">
+										<label for="new_customerName" class="col-sm-2 control-label">客户名称</label>
+										<div class="col-sm-10">
+											<input type="text" v-model="customerTemp.edit_customerName" class="form-control" id="new_customerName" placeholder="客户名称" name="cust_name" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="new_customerFrom" class="col-sm-2 control-label">客户来源</label>
+										<div class="col-sm-10">
+											<select	class="form-control col-sm-10"  v-model="customerTemp.edit_customerFrom" id="new_customerFrom" name="cust_source">
+												<option value="">请选择</option>
+												<option v-for="item in customerFrom">{{item}}</option>
+											</select>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="new_custIndustry" class="col-sm-2 control-label">所属行业</label>
+										<div class="col-sm-10">
+											<select	class="form-control col-sm-10" v-model="customerTemp.edit_custIndustry" id="new_custIndustry" name="cust_industry">
+												<option value="">请选择</option>
+												<option v-for="item in custIndustry">{{item}}</option>
+											</select>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="new_custLevel" class="col-sm-2 control-label">客户级别</label>
+										<div class="col-sm-10">
+											<select	class="form-control" v-model="customerTemp.edit_custLevel" id="new_custLevel" name="cust_level" >
+												<option value="">请选择</option>
+												<option v-for="item in custLevel">{{item}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="new_linkMan" class="col-sm-2 control-label">联系人</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_linkMan" id="new_linkMan" placeholder="联系人" name="cust_linkman" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="new_phone" class="col-sm-2 control-label">固定电话</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control"  v-model="customerTemp.edit_phone"  id="new_phone" placeholder="固定电话" name="cust_phone" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="new_mobile" class="col-sm-2 control-label">移动电话</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_mobile" id="new_mobile" placeholder="移动电话" name="cust_mobile" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="new_zipcode" class="col-sm-2 control-label">邮政编码</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_zipcode" id="new_zipcode" placeholder="邮政编码" name="cust_zipcode" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="new_address" class="col-sm-2 control-label">联系地址</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_address" id="new_address" placeholder="联系地址" name="cust_address" />
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary" @click="createCustomer">创建客户</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="customerEditDialog" tabindex="-1" role="dialog"
+					 aria-labelledby="editCustom">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="editCustom">编辑客户信息</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" id="edit_customer_form">
+									<input type="text" v-model="customerTemp.edit_cust_id" class="form-control hidden" id="new_cust_id"  name="cust_id" />
+									<div class="form-group">
+										<label for="edit_customerName" class="col-sm-2 control-label">客户名称</label>
+										<div class="col-sm-10">
+											<input type="text" v-model="customerTemp.edit_customerName" class="form-control" id="edit_customerName" placeholder="客户名称" name="cust_name" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="edit_customerFrom" class="col-sm-2 control-label">客户来源</label>
+										<div class="col-sm-10">
+											<select	class="form-control col-sm-10"  v-model="customerTemp.edit_customerFrom" id="edit_customerFrom" name="cust_source">
+												<option value="">请选择</option>
+												<option v-for="item in customerFrom">{{item}}</option>
+											</select>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="edit_custIndustry" class="col-sm-2 control-label">所属行业</label>
+										<div class="col-sm-10">
+											<select	class="form-control col-sm-10" v-model="customerTemp.edit_custIndustry" id="edit_custIndustry" name="cust_industry">
+												<option value="">请选择</option>
+												<option v-for="item in custIndustry">{{item}}</option>
+											</select>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="edit_custLevel" class="col-sm-2 control-label">客户级别</label>
+										<div class="col-sm-10">
+											<select	class="form-control" v-model="customerTemp.edit_custLevel" id="edit_custLevel" name="cust_level" >
+												<option value="">请选择</option>
+												<option v-for="item in custLevel">{{item}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="edit_linkMan" class="col-sm-2 control-label">联系人</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_linkMan" id="edit_linkMan" placeholder="联系人" name="cust_linkman" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="edit_phone" class="col-sm-2 control-label">固定电话</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control"  v-model="customerTemp.edit_phone"  id="edit_phone" placeholder="固定电话" name="cust_phone" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="edit_mobile" class="col-sm-2 control-label">移动电话</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_mobile" id="edit_mobile" placeholder="移动电话" name="cust_mobile" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="edit_zipcode" class="col-sm-2 control-label">邮政编码</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_zipcode" id="edit_zipcode" placeholder="邮政编码" name="cust_zipcode" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="edit_address" class="col-sm-2 control-label">联系地址</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" v-model="customerTemp.edit_address" id="edit_address" placeholder="联系地址" name="cust_address" />
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary" @click="updateCustomer">保存修改</button>
+							</div>
+						</div>
+					</div>
+				</div>
             </div>
             <div class="tab-pane" id="product">
+				<span>产品</span>
             </div>
+			<div class="tab-pane" id="view">
+				<span>资源可视化</span>
+			</div>
+			<div class="tab-pane" id="order">
+				<span>订单</span>
+			</div>
         </div>
 	</div>
-
 </div>
-<div class="modal fade" id="newCustomerDialog" tabindex="-1" role="dialog"
-	aria-labelledby="newCustom">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 class="modal-title" id="newCustom">新建客户信息</h4>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal" id="new_customer_form">
-					<div class="form-group">
-						<label for="new_customerName" class="col-sm-2 control-label">
-						    客户名称
-						</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_customerName" placeholder="客户名称" name="cust_name" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_customerFrom" style="float:left;padding:7px 15px 0 27px;">客户来源</label> 
-						<div class="col-sm-10">
-							<select	class="form-control" id="new_customerFrom" name="cust_source">
-								<option value="">请选择</option>
-								<c:forEach items="${fromType}" var="item">
-									<option value="${item.dict_id}" <c:if test="${item.dict_id == custSource}">selected</c:if>>
-									${item.dict_item_name }									
-									</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_custIndustry" style="float:left;padding:7px 15px 0 27px;">所属行业</label>
-						<div class="col-sm-10"> 
-							<select	class="form-control" id="new_custIndustry"  name="cust_industry">
-								<option value="">请选择</option>
-								<c:forEach items="${industryType}" var="item">
-									<option value="${item.dict_id}"<c:if test="${item.dict_id == custIndustry}"> selected</c:if>>
-									${item.dict_item_name }
-									</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_custLevel" style="float:left;padding:7px 15px 0 27px;">客户级别</label>
-						<div class="col-sm-10">
-							<select	class="form-control" id="new_custLevel" name="cust_level">
-								<option value="">请选择</option>
-								<c:forEach items="${levelType}" var="item">
-									<option value="${item.dict_id}"<c:if test="${item.dict_id == custLevel}"> selected</c:if>>${item.dict_item_name }</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_linkMan" class="col-sm-2 control-label">联系人</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_linkMan" placeholder="联系人" name="cust_linkman" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_phone" class="col-sm-2 control-label">固定电话</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_phone" placeholder="固定电话" name="cust_phone" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_mobile" class="col-sm-2 control-label">移动电话</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_mobile" placeholder="移动电话" name="cust_mobile" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_zipcode" class="col-sm-2 control-label">邮政编码</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_zipcode" placeholder="邮政编码" name="cust_zipcode" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="new_address" class="col-sm-2 control-label">联系地址</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="new_address" placeholder="联系地址" name="cust_address" />
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="createCustomer()">创建客户</button>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="modal fade" id="customerEditDialog" tabindex="-1" role="dialog"
-	aria-labelledby="editCustom">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h4 class="modal-title" id="editCustom">修改客户信息</h4>
-			</div>
-			<div class="modal-body">
-				<form class="form-horizontal" id="edit_customer_form">
-					<input type="hidden" id="edit_cust_id" name="cust_id"/>
-					<div class="form-group">
-						<label for="edit_customerName" class="col-sm-2 control-label">客户名称</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_customerName" placeholder="客户名称" name="cust_name" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_customerFrom" style="float:left;padding:7px 15px 0 27px;">客户来源</label> 
-						<div class="col-sm-10">
-							<select	class="form-control" id="edit_customerFrom" name="cust_source">
-								<option value="">请选择</option>
-								<c:forEach items="${fromType}" var="item">
-									<option value="${item.dict_id}"<c:if test="${item.dict_id == custSource}"> selected</c:if>>${item.dict_item_name }</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_custIndustry" style="float:left;padding:7px 15px 0 27px;">所属行业</label>
-						<div class="col-sm-10"> 
-							<select	class="form-control" id="edit_custIndustry"  name="cust_industry">
-								<option value="">请选择</option>
-								<c:forEach items="${industryType}" var="item">
-									<option value="${item.dict_id}"<c:if test="${item.dict_id == custIndustry}"> selected</c:if>>${item.dict_item_name }</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_custLevel" style="float:left;padding:7px 15px 0 27px;">客户级别</label>
-						<div class="col-sm-10">
-							<select	class="form-control" id="edit_custLevel" name="cust_level">
-								<option value="">请选择</option>
-								<c:forEach items="${levelType}" var="item">
-									<option value="${item.dict_id}"<c:if test="${item.dict_id == custLevel}"> selected</c:if>>${item.dict_item_name }</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_linkMan" class="col-sm-2 control-label">联系人</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_linkMan" placeholder="联系人" name="cust_linkman" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_phone" class="col-sm-2 control-label">固定电话</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_phone" placeholder="固定电话" name="cust_phone" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_mobile" class="col-sm-2 control-label">移动电话</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_mobile" placeholder="移动电话" name="cust_mobile" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_zipcode" class="col-sm-2 control-label">邮政编码</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_zipcode" placeholder="邮政编码" name="cust_zipcode" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="edit_address" class="col-sm-2 control-label">联系地址</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="edit_address" placeholder="联系地址" name="cust_address" />
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" onclick="updateCustomer()">保存修改</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 </body>
 </html>

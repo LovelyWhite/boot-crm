@@ -42,8 +42,8 @@
           <element id="library" level="module" name="spring-webmvc-4.3.6.RELEASE.jar" module-name="boot-crm" />
           <element id="library" level="module" name="taglibs-standard-impl-1.2.5.jar" module-name="boot-crm" />
           <element id="library" level="module" name="taglibs-standard-spec-1.2.5.jar" module-name="boot-crm" />
-          <element id="library" level="project" name="lib" />
           <element id="library" level="project" name="mysql-connector-java-8.0.18" />
+          <element id="library" level="project" name="fastjson-1.2.56" />
         </element>
       </element>
     </root>

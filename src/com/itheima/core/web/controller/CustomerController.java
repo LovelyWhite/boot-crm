@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -61,34 +62,24 @@ public class CustomerController {
 	        return "FAIL";
 	    }
 	}
-
-	/**
-	 * 通过id获取客户信息
-	 */
-	@RequestMapping("/customer/getCustomerById.action")
-	@ResponseBody
-	public Customer getCustomerById(Integer id) {
-	    Customer customer = customerService.getCustomerById(id);
-	    return customer;
-	}
 	/**
 	 * 更新客户
 	 */
-	@RequestMapping("/customer/update.action")
-	@ResponseBody
-	public String customerUpdate(Customer customer) {
-	    int rows = customerService.updateCustomer(customer);
-	    if(rows > 0){
-	        return "OK";
-	    }else{
-	        return "FAIL";
-	    }
+	@RequestMapping(value = "/update.do",method = RequestMethod.POST)
+	public String customerUpdate(Customer customer,HttpServletResponse response) throws IOException {
+		int rows = customerService.updateCustomer(customer);
+		if (rows > 0) {
+			response.getWriter().write("OK");
+		} else {
+			response.getWriter().write("FAIL");
+		}
+		return null;
 	}
 
 	/**
 	 * 删除客户
 	 */
-	@RequestMapping("/customer/delete.action")
+	@RequestMapping("delete.do")
 	@ResponseBody
 	public String customerDelete(Integer id) {
 	    int rows = customerService.deleteCustomer(id);
