@@ -7,51 +7,64 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd1ba544-5c7b-4888-b76c-36b4a574feeb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/itheima/common/utils/FaceMatch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/HttpClient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/aip_java_sdk_4_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/json_20160810.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebContent/WEB-INF/lib/aip-java-sdk-4.3.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebContent/WEB-INF/lib/json-20160810.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/itheima/common/utils/BlobTypeHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/boot_crm_Web_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/boot_crm_Web_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebContent/content.html" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/content.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebContent/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/WebContent/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/boot-crm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/boot-crm.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bootcrm.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/common/utils/NavigationTag.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/BaseDictDao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/BaseDictDao.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/CustomerDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/CustomerDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/po/BaseDict.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/service/BaseDictService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/service/impl/BaseDictServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/service/impl/CustomerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/service/impl/CustomerServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/web/controller/CustomerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/web/controller/CustomerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/resource.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/resource.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/common/utils/NavigationTag.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/BaseDictDao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/BaseDictDao.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/CustomerDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/CustomerDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/po/BaseDict.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/BaseDictService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/impl/BaseDictServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/impl/CustomerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/impl/CustomerServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/web/controller/CustomerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/web/controller/CustomerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/resource.properties" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/resource.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/content.html" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/content.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/resource.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/resource.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/common/utils/NavigationTag.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/dao/BaseDictDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/dao/BaseDictDao.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/dao/CustomerDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/dao/CustomerDao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/po/BaseDict.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/UserDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/UserDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/dao/UserDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/po/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/po/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/com/itheima/core/web/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/com/itheima/core/web/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/UserDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/UserDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/dao/UserDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/po/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/po/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/web/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/classes/com/itheima/core/web/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/annotations-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/annotations-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-ant.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-ant.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-ha.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-ha.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-storeconfig.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-storeconfig.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-tribes.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina-tribes.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/catalina.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/el-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/el-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jasper-el.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jasper-el.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jasper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jasper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jaspic-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jaspic-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jsp-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/jsp-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/servlet-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/servlet-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-coyote.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-coyote.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-dbcp.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-dbcp.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-es.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-es.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-fr.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-fr.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-ja.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-ja.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-ru.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-i18n-ru.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-jdbc.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-jdbc.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-jni.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-jni.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-util-scan.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-util-scan.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-util.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-util.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-websocket.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/tomcat-websocket.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/websocket-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/WEB-INF/lib/websocket-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/boot_crm_Web_exploded/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itheima/common/utils/FaceMatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/common/utils/FaceMatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/dao/UserDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/dao/UserDao.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/itheima/core/po/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/po/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/service/BaseDictService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/service/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/service/impl/BaseDictServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/service/impl/CustomerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/service/impl/CustomerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/service/impl/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/itheima/core/web/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/web/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/itheima/core/web/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/itheima/core/web/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +82,28 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand />
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL - boot_crm@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL - boot_crm@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL - boot_crm@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="boot_crm: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="MySQL - boot_crm@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="collations" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+    </expand>
     <select />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -119,27 +153,29 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577023502389" />
-    <property name="last_opened_file_path" value="C:/apache-tomcat-9.0.30/lib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/WebContent/WEB-INF/lib" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3045977" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\LovelyWhite\Desktop\boot-crm\WebContent\WEB-INF\jsp" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.itheima.core.web.controller" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\icezx\Documents\GitHub\boot-crm\WebContent\WEB-INF\lib" />
       <recent name="C:\Users\LovelyWhite\Desktop\boot-crm\WebContent\WEB-INF\lib" />
       <recent name="C:\Users\LovelyWhite\Desktop\boot-crm\WebContent\js" />
       <recent name="C:\Users\LovelyWhite\Desktop\boot-crm\WebContent" />
       <recent name="C:\Users\LovelyWhite\Desktop\boot-crm\WebContent\images" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.itheima.core.web.controller" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\icezx\Documents\GitHub\boot-crm\WebContent\WEB-INF\lib" />
+      <recent name="C:\Users\LovelyWhite\Desktop\boot-crm\WebContent\WEB-INF\jsp" />
     </key>
   </component>
   <component name="RunManager">
@@ -234,6 +270,10 @@
                 <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
                 <item name="Running" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="root:boot_crm@localhost" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
             </expand>
             <select />
           </treeState>
@@ -264,6 +304,7 @@
       <workItem from="1577033463413" duration="420000" />
       <workItem from="1577063798457" duration="26206000" />
       <workItem from="1577151969620" duration="7520000" />
+      <workItem from="1577162320979" duration="17029000" />
     </task>
     <servers />
   </component>
@@ -287,14 +328,15 @@
       <screen x="0" y="30" width="1368" height="882" />
     </state>
     <state x="338" y="44" key="#Unnamed_(1)/0.30.1368.882@0.30.1368.882" timestamp="1577081512451" />
-    <state x="140" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577087932458">
-      <screen x="0" y="30" width="1368" height="882" />
-    </state>
-    <state x="140" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.30.1368.882@0.30.1368.882" timestamp="1577087932458" />
-    <state x="543" y="158" key="#com.intellij.ide.util.MemberChooser" timestamp="1577159291055">
+    <state x="160" y="137" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577163566383">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
-    <state x="543" y="158" key="#com.intellij.ide.util.MemberChooser/0.30.1563.1012@0.30.1563.1012" timestamp="1577159291055" />
+    <state x="140" y="123" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.30.1368.882@0.30.1368.882" timestamp="1577087932458" />
+    <state x="160" y="137" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.30.1563.1012@0.30.1563.1012" timestamp="1577163566383" />
+    <state x="543" y="158" key="#com.intellij.ide.util.MemberChooser" timestamp="1577175827846">
+      <screen x="0" y="30" width="1563" height="1012" />
+    </state>
+    <state x="543" y="158" key="#com.intellij.ide.util.MemberChooser/0.30.1563.1012@0.30.1563.1012" timestamp="1577175827846" />
     <state x="450" y="231" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1577156948829">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
@@ -303,99 +345,107 @@
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state x="481" y="183" key="#xdebugger.evaluate/0.30.1563.1012@0.30.1563.1012" timestamp="1577154949014" />
-    <state width="454" height="582" key="DebuggerActiveHint" timestamp="1577153358113">
+    <state width="454" height="582" key="DebuggerActiveHint" timestamp="1577179590370">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
-    <state width="454" height="582" key="DebuggerActiveHint/0.30.1563.1012@0.30.1563.1012" timestamp="1577153358113" />
+    <state width="454" height="582" key="DebuggerActiveHint/0.30.1563.1012@0.30.1563.1012" timestamp="1577179590370" />
+    <state x="81" y="152" width="1341" height="763" key="DiffContextDialog" timestamp="1577179340833">
+      <screen x="0" y="30" width="1563" height="1012" />
+    </state>
+    <state x="81" y="152" width="1341" height="763" key="DiffContextDialog/0.30.1563.1012@0.30.1563.1012" timestamp="1577179340833" />
     <state x="416" y="158" key="FileChooserDialogImpl" timestamp="1577030996480">
       <screen x="0" y="30" width="1368" height="882" />
     </state>
     <state x="416" y="158" key="FileChooserDialogImpl/0.30.1368.882@0.30.1368.882" timestamp="1577030996480" />
-    <state width="1184" height="377" key="GridCell.Tab.0.bottom" timestamp="1577159223759">
+    <state width="1168" height="390" key="GridCell.Tab.0.bottom" timestamp="1577179634017">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.0.bottom/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.0.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223759" />
-    <state width="1184" height="377" key="GridCell.Tab.0.center" timestamp="1577159223759">
+    <state width="1168" height="390" key="GridCell.Tab.0.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634017" />
+    <state width="1168" height="390" key="GridCell.Tab.0.center" timestamp="1577179634017">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.0.center/0.30.1368.882@0.30.1368.882" timestamp="1577095516915" />
-    <state width="1184" height="377" key="GridCell.Tab.0.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223759" />
-    <state width="1184" height="377" key="GridCell.Tab.0.left" timestamp="1577159223759">
+    <state width="1168" height="390" key="GridCell.Tab.0.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634017" />
+    <state width="1168" height="390" key="GridCell.Tab.0.left" timestamp="1577179634017">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.0.left/0.30.1368.882@0.30.1368.882" timestamp="1577095516915" />
-    <state width="1184" height="377" key="GridCell.Tab.0.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223759" />
-    <state width="1184" height="377" key="GridCell.Tab.0.right" timestamp="1577159223759">
+    <state width="1168" height="390" key="GridCell.Tab.0.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634017" />
+    <state width="1168" height="390" key="GridCell.Tab.0.right" timestamp="1577179634017">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.0.right/0.30.1368.882@0.30.1368.882" timestamp="1577095516915" />
-    <state width="1184" height="377" key="GridCell.Tab.0.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223759" />
-    <state width="1184" height="377" key="GridCell.Tab.1.bottom" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.0.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634017" />
+    <state width="1168" height="390" key="GridCell.Tab.1.bottom" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.1.bottom/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.1.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.1.center" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.1.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.1.center" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.1.center/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.1.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.1.left" timestamp="1577159223759">
+    <state width="1168" height="390" key="GridCell.Tab.1.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.1.left" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.1.left/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.1.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223759" />
-    <state width="1184" height="377" key="GridCell.Tab.1.right" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.1.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.1.right" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.1.right/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.1.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.2.bottom" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.1.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.2.bottom" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.2.bottom/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.2.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.2.center" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.2.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.2.center" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.2.center/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.2.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.2.left" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.2.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.2.left" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.2.left/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.2.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.2.right" timestamp="1577159223760">
+    <state width="1168" height="390" key="GridCell.Tab.2.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.2.right" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.2.right/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.2.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577159223760" />
-    <state width="1184" height="377" key="GridCell.Tab.3.bottom" timestamp="1577158930914">
+    <state width="1168" height="390" key="GridCell.Tab.2.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.3.bottom" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.3.bottom/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.3.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577158930914" />
-    <state width="1184" height="377" key="GridCell.Tab.3.center" timestamp="1577158930913">
+    <state width="1168" height="390" key="GridCell.Tab.3.bottom/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.3.center" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.3.center/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.3.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577158930913" />
-    <state width="1184" height="377" key="GridCell.Tab.3.left" timestamp="1577158930913">
+    <state width="1168" height="390" key="GridCell.Tab.3.center/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.3.left" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.3.left/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.3.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577158930913" />
-    <state width="1184" height="377" key="GridCell.Tab.3.right" timestamp="1577158930914">
+    <state width="1168" height="390" key="GridCell.Tab.3.left/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state width="1168" height="390" key="GridCell.Tab.3.right" timestamp="1577179634018">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state width="1031" height="232" key="GridCell.Tab.3.right/0.30.1368.882@0.30.1368.882" timestamp="1577095516916" />
-    <state width="1184" height="377" key="GridCell.Tab.3.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577158930914" />
-    <state x="139" y="142" width="1240" height="707" key="SettingsEditor" timestamp="1577152859994">
+    <state width="1168" height="390" key="GridCell.Tab.3.right/0.30.1563.1012@0.30.1563.1012" timestamp="1577179634018" />
+    <state x="139" y="142" width="1240" height="707" key="SettingsEditor" timestamp="1577176631213">
       <screen x="0" y="30" width="1563" height="1012" />
     </state>
     <state x="190" y="87" width="1137" height="881" key="SettingsEditor/0.30.1368.882@0.30.1368.882" timestamp="1577084211022" />
-    <state x="139" y="142" width="1240" height="707" key="SettingsEditor/0.30.1563.1012@0.30.1563.1012" timestamp="1577152859994" />
+    <state x="139" y="142" width="1240" height="707" key="SettingsEditor/0.30.1563.1012@0.30.1563.1012" timestamp="1577176631213" />
+    <state width="770" height="481" key="XDebugger.FullValuePopup" timestamp="1577178783553">
+      <screen x="0" y="30" width="1563" height="1012" />
+    </state>
+    <state width="770" height="481" key="XDebugger.FullValuePopup/0.30.1563.1012@0.30.1563.1012" timestamp="1577178783553" />
     <state x="320" y="260" key="com.intellij.ide.util.TipDialog" timestamp="1577030520595">
       <screen x="0" y="30" width="1368" height="882" />
     </state>
@@ -409,9 +459,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/itheima/core/web/controller/CustomerController.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="12" />
+          <url>file://$PROJECT_DIR$/src/com/itheima/core/web/controller/UserController.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/itheima/core/web/controller/UserController.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -377,5 +377,9 @@
     <orderEntry type="library" name="mysql-connector-java-8.0.18" level="project" />
     <orderEntry type="library" name="fastjson-1.2.56" level="project" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="HttpClient" level="project" />
+    <orderEntry type="library" name="aip-java-sdk-4.3.2" level="project" />
+    <orderEntry type="library" name="json-20160810" level="project" />
+    <orderEntry type="library" name="httpclient" level="project" />
   </component>
 </module>

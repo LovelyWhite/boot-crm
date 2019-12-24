@@ -4,58 +4,129 @@
     <title>登录</title>
     <meta http-equiv=Content-Type content="text/html; charset=utf-8">
     <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/font-awesome.min.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <script src= "./js/jquery-1.11.3.min.js"></script>
     <script src= "./js/sweetalert.min.js"></script>
+    <script src="./js/axios.min.js"></script>
+    <script src="./js/vue.min.js"></script>
     <script>
+        window.onload = function () {
+            let videostream;
+            let login = new Vue(
+                {
+                    el: "#container",
+                    data: {
+                        isFace: false,
+                        usercode: "",
+                        password: "",
+                    },
+                    methods:
+                        {
+                            changeFace() {
 
-        function check(){
-            var usercode = $("#usercode").val();
-            var password = $("#password").val();
-            if(usercode=== "" || password=== ""){
-                swal("密码不能为空");
-                return false;
-            }
-            else
-            {
-                $.ajax({
-                    url:"./request/login.do",
-                    method:"post",
-                    data:{
-                        usercode:usercode,
-                        password:password
-                    }
-                }).then((res)=> {
-                    if(res==="success")
-                    {
-                        window.location.href="./content.html"
-                    }
-                    else
-                    {
-                        swal("密码错误")
-                    }
-                })
-            }
-            return true;
-        }
+                                if (!this.isFace)
+                                {
+                                    this.getCamera();
+                                }
+                                else
+                                {
+                                    this.stop();
+                                }
+                                this.isFace = !this.isFace;
+                            },
+                            stop() {
+                                videostream && videostream.getTracks().forEach(function (track) {
+                                    track.stop();
+                                });
+                            },
+                            getCamera() {
+                                let constraints = {audio: false, video: {width: 600, height: 600, facingMode: "user"}};
+                                navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+                                    this.video = document.getElementById("video");
+                                    videostream = stream;
+                                    this.video.srcObject = stream;
+                                    this.video.addEventListener("click", function () {
+                                        this.play();
+                                    });
+                                }).catch(function (err) {
+                                    console.log(err.name + ": " + err.message);
+                                });
+                            },
+                            check() {
+                                let canvas = document.createElement('canvas');
+                                // let canvasc = document.createElement('canvas');
+                                let pic = "";
+                                if (this.isFace) {
+                                    let ctx = canvas.getContext('2d');
+                                    let video = document.getElementById("video");
+                                    ctx.drawImage(video, 0, 0);
+                                    pic = canvas.toDataURL("image/jpeg",0.7);
+                                    console.log(pic);
+                                    var params = new URLSearchParams();
+                                    params.append("pic",pic);
+                                    params.append("method","face");
+                                    axios.post("./request/login.do", params)
+                                        .then((res) => {
+                                            if (res === "success") {
+                                                window.location.href = "./content.html"
+                                            } else {
+                                                swal("未知识别")
+                                            }
+                                        })
+                                }
+                                else {
+                                    if (this.usercode === "" || this.password === "") {
+                                        swal("密码不能为空");
+                                    } else {
+                                        console.log(pic);
+                                        axios.post("./request/login.do",
+                                            "usercode=" + this.usercode + "&password=" + this.password + "&method=password")
+                                            .then((res) => {
+                                                if (res === "success") {
+                                                    window.location.href = "./content.html"
+                                                } else {
+                                                    swal("密码错误")
+                                                }
+                                            })
+
+                                    }
+                                }
+                            }
+                        }
+                }
+            )
+        };
     </script>
 </head>
 <body>
 <div>
     <img class="center-block img-responsive" src="./images/title.png">
 </div>
-<div class="container max-width">
-    <form id="login">
-        <div class="input-group">
-            <span class="input-group-addon" id="usercode_descri">账号</span>
-            <input class="form-control" id="usercode" type="text" name="usercode" aria-describedby="usercode_descri" />
-        </div>
-        <div class="input-group inter-top">
-            <span class="input-group-addon" id="password_descri">密码</span>
-            <input class="form-control" id="password" type="password" name="password" aria-describedby="password_descri"/>
-        </div>
-    </form>
-    <button class="btn btn-default pull-right inter-top" onclick="check();">登录</button>
+<div id="container" class="container max-width">
+    <div v-if="!isFace">
+        <form id="login">
+            <div class="input-group">
+                <span class="input-group-addon" id="usercode_descri">账号</span>
+                <input class="form-control" v-model="usercode" id="usercode" type="text" name="usercode" aria-describedby="usercode_descri" />
+            </div>
+            <div class="input-group inter-top">
+                <span class="input-group-addon" id="password_descri">密码</span>
+                <input class="form-control" v-model="password" id="password" type="password" name="password" aria-describedby="password_descri"/>
+            </div>
+        </form>
+    </div>
+    <div v-else>
+        <video class="center-block" autoplay id="video"
+               style="width: 300px;height: 300px; border: cadetblue 2px dashed;display: flow-root; border-radius:10px;"></video>
+    </div>
+    <button class="btn btn-success pull-right inter-top" @click="check">登录</button>
+    <span v-if="isFace">
+       <button class="btn btn-default pull-right inter-top" aria-hidden="true" @click="changeFace" style="margin-right: 5px"><i class="fa fa-key" aria-hidden="true"></i></button>
+    </span>
+    <span v-else>
+        <button class="btn btn-default pull-right inter-top" aria-hidden="true" @click="changeFace" style="margin-right: 5px"><i class="fa fa-smile-o" aria-hidden="true"></i></button>
+    </span>
 </div>
 </body>
 </html>

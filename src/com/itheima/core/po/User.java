@@ -10,7 +10,7 @@ public class User implements Serializable{
 	private String user_name;     //用户名称
 	private String user_password; //用户密码
 	private Integer user_state;   //用户状态
-	private String pic; //人脸图像
+	private String user_pic; //人脸图像
 	public Integer getUser_id() {
 		return user_id;
 	}
@@ -41,11 +41,10 @@ public class User implements Serializable{
 	public void setUser_state(Integer user_state) {
 		this.user_state = user_state;
 	}
-	public String getPic() {
-		return pic;
+	public String getUser_pic() {
+		return user_pic;
 	}
-
-	public void setPic(String pic) {
-		this.pic = pic;
+	public void setUser_pic(String user_pic) {
+		this.user_pic = user_pic;
 	}
 }

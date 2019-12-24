@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/boot_crm?serverTimezone=UTC</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="boot_crm@localhost" uuid="387b45e4-e29b-442a-98d7-7c5160ca34f4">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/boot_crm</jdbc-url>
+    </data-source>
   </component>
 </project>

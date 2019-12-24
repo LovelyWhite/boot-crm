@@ -3,11 +3,22 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itheima.core.dao.UserDao" >
     <!-- 查询用户 -->
-    <select id="findUser" parameterType="String" resultType="user">
+    <select id="findUser" parameterType="String" resultType="User">
 	    select *
 	    from sys_user
 	    where user_code = #{usercode}
 	    and user_password =#{password}
 	    and user_state = '1'
     </select>
+	<resultMap id="ResultMap" type="User">
+		<result property="user_pic" column="data" typeHandler="com.itheima.common.utils.BlobTypeHandler"/>
+	</resultMap>
+	<select id="getUsers" resultType="User" resultMap="ResultMap">
+		select * from sys_user
+	</select>
+	<update id="setFace" parameterType="String">
+		update sys_user
+		set pic=#{pic}
+		where user_code =#{usercode}
+	</update>
 </mapper>
