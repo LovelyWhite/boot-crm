@@ -58,9 +58,11 @@
                                 // let canvasc = document.createElement('canvas');
                                 let pic = "";
                                 if (this.isFace) {
+                                    canvas.width = 600;
+                                    canvas.height = 600;
                                     let ctx = canvas.getContext('2d');
                                     let video = document.getElementById("video");
-                                    ctx.drawImage(video, 0, 0);
+                                    ctx.drawImage(video,0,0);
                                     pic = canvas.toDataURL("image/jpeg",0.7);
                                     console.log(pic);
                                     var params = new URLSearchParams();
@@ -68,7 +70,7 @@
                                     params.append("method","face");
                                     axios.post("./request/login.do", params)
                                         .then((res) => {
-                                            if (res === "success") {
+                                            if (res.data === "success") {
                                                 window.location.href = "./content.html"
                                             } else {
                                                 swal("未知识别")

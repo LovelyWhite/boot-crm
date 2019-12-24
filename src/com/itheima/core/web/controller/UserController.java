@@ -53,10 +53,15 @@ public class UserController {
 			for (User u : users) {
 				if (u.getUser_pic() !=null && !u.getUser_pic().equals("")) {
 					JSONObject result = FaceMatch.match(u.getUser_pic(),pic	);
-					if ((double) result.get("score") > 90) {
-						ok = false;
-						break;
+					if(result!=null && 0==result.getInt("error_code"))
+					{
+						if (result.getJSONObject("result").getDouble("score") > 90) {
+                            session.setAttribute("USER_SESSION", u);
+							ok = false;
+							break;
+						}
 					}
+
 				}
 			}
 			if(ok)

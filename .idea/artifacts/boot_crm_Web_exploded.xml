@@ -48,7 +48,6 @@
           <element id="library" level="project" name="HttpClient" />
           <element id="library" level="project" name="aip-java-sdk-4.3.2" />
           <element id="library" level="project" name="json-20160810" />
-          <element id="library" level="project" name="httpclient" />
         </element>
       </element>
     </root>
