@@ -14,187 +14,206 @@
     <script src="./js/axios.min.js"></script>
     <script type="text/javascript">
         window.onload=function () {
-           let customer = new Vue({
-			   el: "#customer",
-			   data: {
-				   customerFrom: ["电话营销", "网络营销", "老客户"],
-				   custIndustry: ["教育培训", "对外贸易", "电子商务", "酒店旅游", "房地产"],
-				   custLevel: ["普通客户", "VIP"],
-				   cust: [],
-				   size: 0,
-				   total: 0,
-				   totalPage: 0,
-				   pages: [],
-				   searching: {
-					   page: 1,
-					   customerName: "",
-					   customerFromSelect: "",
-					   custIndustrySelect: "",
-					   custLevelSelect: ""
-				   },
-				   customerTemp: {
-					   edit_cust_id: "",
-					   edit_customerName: "",
-					   edit_customerFrom: "",
-					   edit_custIndustry: "",
-					   edit_custLevel: "",
-					   edit_linkMan: "",
-					   edit_phone: "",
-					   edit_mobile: "",
-					   edit_zipcode: "",
-					   edit_address: "",
-				   }
-			   },
-			   methods: {
-				   search(index) {
-					   if (index !== undefined) {
-						   this.searching.page = index
-					   }
-					   axios.post('./customer/list.do',"page=" + this.searching.page +
-							   "&custName=" + customer.searching.customerName +
-							   "&custSource=" + customer.searching.customerFromSelect +
-							   "&custIndustry=" + customer.searching.custIndustrySelect +
-							   "&custLevel=" + customer.searching.custLevelSelect)
-							   .then(res => {
-								   this.size = res.data.size;
-								   this.searching.page = res.data.page;
-								   this.total = res.data.total;
-								   this.cust = res.data.rows;
-								   this.totalPage = Math.floor(this.total / this.size);
-								   let rest = this.total % this.size;
-								   if (rest > 0) this.totalPage++;
-								   let localPages = [];
-								   for (let i = 1; i <= this.totalPage; i++) {
-									   localPages.push(i);
-								   }
-								   if (this.totalPage > 5) {
-									   if (this.searching.page > this.totalPage - 2) {
-										   this.pages = localPages.slice(-5);
-									   } else if (this.searching.page < 3) {
-										   this.pages = localPages.slice(0, 5);
-									   } else {
-										   this.pages = localPages.slice(this.searching.page - 3, this.searching.page + 2);
-									   }
-								   } else
-									   this.pages = localPages.slice(0, localPages.length);
-							   })
-				   },
-				   nextPage() {
-					   if (this.searching.page < this.totalPage - 1) {
-						   this.searching.page++
-					   }
-					   this.search()
-				   },
-				   prevPage() {
-					   if (this.searching.page > 1) {
-						   this.searching.page--
-					   }
-					   this.search()
-				   },
-				   // 创建客户
-				   createCustomer() {
-					   axios.post('./customer/create.do', $("#new_customer_form").serialize()).then(res=>
-					   {
-						   if (res.data === "OK") {
-							   swal("更新成功").then(() => {
-								   window.location.reload();
-							   })
-						   } else {
-							   swal("更新失败").then(() => {
-								   window.location.reload();
-							   })
-						   }
-					   });
-				   },
-				   editCustomer(index) {
-					   this.customerTemp= {
-						   edit_cust_id: customer.cust[index].cust_id,
-						   edit_customerName: customer.cust[index].cust_name,
-						   edit_customerFrom: customer.cust[index].cust_source,
-						   edit_custIndustry: customer.cust[index].cust_industry,
-						   edit_custLevel: customer.cust[index].cust_level,
-						   edit_linkMan: customer.cust[index].cust_linkman,
-						   edit_phone: customer.cust[index].cust_phone,
-						   edit_mobile: customer.cust[index].cust_mobile,
-						   edit_zipcode: customer.cust[index].cust_zipcode,
-						   edit_address: customer.cust[index].cust_address,
-					   }
-				   },
-				   // 执行修改客户操作
-				   updateCustomer() {
-				   	axios.post('./customer/update.do', $("#edit_customer_form").serialize()).then(res=>
+
+			let navbar = new Vue(
 					{
-						if (res.data === "OK") {
-							swal("更新成功").then(() => {
-								window.location.reload();
-							})
-						} else {
-							swal("更新失败").then(() => {
-								window.location.reload();
-							})
+						el: "#navbar",
+						data: {
+							userSession: {}
+						},
+						methods:
+								{
+									onload() {
+										this.userSession = JSON.parse(sessionStorage.getItem("USER_SESSION"));
+									}
+								}
+					}
+			)
+			let customer = new Vue({
+				el: "#customer",
+				data: {
+					customerFrom: ["电话营销", "网络营销", "老客户"],
+					custIndustry: ["教育培训", "对外贸易", "电子商务", "酒店旅游", "房地产"],
+					custLevel: ["普通客户", "VIP"],
+					cust: [],
+					size: 0,
+					total: 0,
+					totalPage: 0,
+					pages: [],
+					searching: {
+						page: 1,
+						customerName: "",
+						customerFromSelect: "",
+						custIndustrySelect: "",
+						custLevelSelect: ""
+					},
+					customerTemp: {
+						edit_cust_id: "",
+						edit_customerName: "",
+						edit_customerFrom: "",
+						edit_custIndustry: "",
+						edit_custLevel: "",
+						edit_linkMan: "",
+						edit_phone: "",
+						edit_mobile: "",
+						edit_zipcode: "",
+						edit_address: "",
+					}
+				},
+				methods: {
+					onload() {
+						this.search();
+					},
+					search(index) {
+						if (index !== undefined) {
+							this.searching.page = index
 						}
-					});
+						axios.post('./customer/list.do', "page=" + this.searching.page +
+								"&custName=" + customer.searching.customerName +
+								"&custSource=" + customer.searching.customerFromSelect +
+								"&custIndustry=" + customer.searching.custIndustrySelect +
+								"&custLevel=" + customer.searching.custLevelSelect)
+								.then(res => {
+									if (1 === res.data.flag) {
+										this.size = res.data.obj.size;
+										this.searching.page = res.data.obj.page;
+										this.total = res.data.obj.total;
+										this.cust = res.data.obj.rows;
+										this.totalPage = Math.floor(this.total / this.size);
+										let rest = this.total % this.size;
+										if (rest > 0) this.totalPage++;
+										let localPages = [];
+										for (let i = 1; i <= this.totalPage; i++) {
+											localPages.push(i);
+										}
+										if (this.totalPage > 5) {
+											if (this.searching.page > this.totalPage - 2) {
+												this.pages = localPages.slice(-5);
+											} else if (this.searching.page < 3) {
+												this.pages = localPages.slice(0, 5);
+											} else {
+												this.pages = localPages.slice(this.searching.page - 3, this.searching.page + 2);
+											}
+										} else
+											this.pages = localPages.slice(0, localPages.length);
+									} else {
+									}
+								})
+					},
+					nextPage() {
+						if (this.searching.page < this.totalPage - 1) {
+							this.searching.page++
+						}
+						this.search()
+					},
+					prevPage() {
+						if (this.searching.page > 1) {
+							this.searching.page--
+						}
+						this.search()
+					},
+					// 创建客户
+					createCustomer() {
+						axios.post('./customer/create.do', $("#new_customer_form").serialize()).then(res => {
+							if (1 === res.data.flag) {
+								swal(res.data.content).then(() => {
+									window.location.reload();
+								})
+							} else {
+								swal(res.data.content).then(() => {
+									window.location.reload();
+								})
+							}
+						});
+					},
+					editCustomer(index) {
+						this.customerTemp = {
+							edit_cust_id: customer.cust[index].cust_id,
+							edit_customerName: customer.cust[index].cust_name,
+							edit_customerFrom: customer.cust[index].cust_source,
+							edit_custIndustry: customer.cust[index].cust_industry,
+							edit_custLevel: customer.cust[index].cust_level,
+							edit_linkMan: customer.cust[index].cust_linkman,
+							edit_phone: customer.cust[index].cust_phone,
+							edit_mobile: customer.cust[index].cust_mobile,
+							edit_zipcode: customer.cust[index].cust_zipcode,
+							edit_address: customer.cust[index].cust_address,
+						}
+					},
+					// 执行修改客户操作
+					updateCustomer() {
+						axios.post('./customer/update.do', $("#edit_customer_form").serialize()).then(res => {
+							if (1 === res.data.flag) {
+								swal(res.data.content).then(() => {
+									window.location.reload();
+								})
+							} else {
+								swal(res.data.content).then(() => {
+									window.location.reload();
+								})
+							}
+						});
 
-				   },
-				   // 删除客户
-				   deleteCustomer(id) {
-					   swal("确实要删除该客户吗?", {
-						   dangerMode: true,
-						   buttons: true,
-					   }).then(() => {
-						   axios.post('./customer/delete.do', "id="+id)
-								   .then(res => {
-									   if (res.data === "OK") {
-										   swal("删除成功").then(() => {
-											   window.location.reload();
-										   })
-									   } else {
-										   swal("删除失败").then(() => {
-											   window.location.reload();
-										   })
-									   }
-								   })
-					   })
-				   },
-				   clearCustomer() {
-					   this.customerTemp= {
-						   edit_cust_id: "",
-						   edit_customerName: "",
-						   edit_customerFrom: "",
-						   edit_custIndustry: "",
-						   edit_custLevel: "",
-						   edit_linkMan: "",
-						   edit_phone: "",
-						   edit_mobile: "",
-						   edit_zipcode: "",
-						   edit_address: "",
-					   }
-				   }
-			   }
-		   });
-           customer.search();
-            new Vue({
-                el: "#product",
-                data: {},
-                method: {}
+					},
+					// 删除客户
+					deleteCustomer(id) {
+						swal("确实要删除该客户吗?", {
+							dangerMode: true,
+							buttons: true,
+						}).then(() => {
+							axios.post('./customer/delete.do', "id=" + id)
+									.then(res => {
+										if (1 === res.data.flag) {
+											swal(res.data.content).then(() => {
+												window.location.reload();
+											})
+										} else {
+											swal(res.data.content).then(() => {
+												window.location.reload();
+											})
+										}
+									})
+						})
+					},
+					clearCustomer() {
+						this.customerTemp = {
+							edit_cust_id: "",
+							edit_customerName: "",
+							edit_customerFrom: "",
+							edit_custIndustry: "",
+							edit_custLevel: "",
+							edit_linkMan: "",
+							edit_phone: "",
+							edit_mobile: "",
+							edit_zipcode: "",
+							edit_address: "",
+						}
+					}
+				}
+			});
 
-            });
-        };
+			new Vue({
+				el: "#product",
+				data: {},
+				method: {}
 
+			});
+			navbar.onload();
+			customer.onload();
+		};
         function logout() {
-            $.ajax({
-                url:"./request/logout.do",
-                method:"post"
-            }).then(()=> {
-                swal("退出成功").then(()=>
-                {
-                    window.location.href="./index.html"
-                });
+			$.ajax({
+				url: "./request/logout.do",
+				method: "post"
+			}).then(() => {
+				swal("退出成功").then(() => {
+					window.location.href = "./index.html"
+				});
 
-            }).catch(()=> {
-                swal("退出失败");
-            })
-        }
+			}).catch(() => {
+				swal("退出失败");
+			})
+		}
     </script>
 </head>
 <body>
@@ -319,7 +338,7 @@
 				  <ul class="dropdown-menu dropdown-user">
 					  <li>
 						  <a href="#"><i class="fa fa-user fa-fw"></i>
-						  用户:
+						  用户:{{userSession.user_name}}
 						  </a>
 					  </li>
 					  <li><a href="#"><i class="fa fa-gear fa-fw"></i> 系统设置</a></li>

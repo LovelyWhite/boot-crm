@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
+import com.itheima.common.utils.ReturnValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,7 @@ public class CustomerController {
 	public String list(@RequestParam(defaultValue="1")Integer page, @RequestParam(defaultValue="10")Integer rows, String custName, String custSource, String custIndustry, String custLevel, HttpServletResponse response) throws IOException {
 		// 条件查询所有客户
 		Page<Customer> customers = customerService.findCustomerList(page, rows, custName,  custSource, custIndustry,custLevel);
-		response.getWriter().write(JSON.toJSONString(customers,DisableCircularReferenceDetect));
+		response.getWriter().write(new ReturnValue(1,"获取成功",customers).toString());
 		return null;
 	}
 	
@@ -43,8 +44,7 @@ public class CustomerController {
 	 * 创建客户
 	 */
 	@RequestMapping("/create.do")
-	@ResponseBody
-	public String customerCreate(Customer customer,HttpSession session) {
+	public String customerCreate(Customer customer,HttpSession session,HttpServletResponse response) throws IOException {
 	    // 获取Session中的当前用户信息
 	    User user = (User) session.getAttribute("USER_SESSION");
 	    // 将当前用户id存储在客户对象中
@@ -57,10 +57,12 @@ public class CustomerController {
 	    // 执行Service层中的创建方法，返回的是受影响的行数
 	    int rows = customerService.createCustomer(customer);
 	    if(rows > 0){
-	        return "OK";
+			String x = new ReturnValue(1,"客户创建成功",null).toString();
+			response.getWriter().write(new ReturnValue(1,"客户创建成功",null).toString());
 	    }else{
-	        return "FAIL";
+			response.getWriter().write(new ReturnValue(0,"客户创建失败",null).toString());
 	    }
+	    return null;
 	}
 	/**
 	 * 更新客户
@@ -69,9 +71,9 @@ public class CustomerController {
 	public String customerUpdate(Customer customer,HttpServletResponse response) throws IOException {
 		int rows = customerService.updateCustomer(customer);
 		if (rows > 0) {
-			response.getWriter().write("OK");
+			response.getWriter().write(new ReturnValue(1,"客户更新成功",null).toString());
 		} else {
-			response.getWriter().write("FAIL");
+			response.getWriter().write(new ReturnValue(0,"客户更新失败",null).toString());
 		}
 		return null;
 	}
@@ -80,14 +82,14 @@ public class CustomerController {
 	 * 删除客户
 	 */
 	@RequestMapping("delete.do")
-	@ResponseBody
-	public String customerDelete(Integer id) {
+	public String customerDelete(Integer id,HttpServletResponse response) throws IOException {
 	    int rows = customerService.deleteCustomer(id);
-	    if(rows > 0){			
-	        return "OK";
-	    }else{
-	        return "FAIL";			
-	    }
+		if (rows > 0) {
+			response.getWriter().write(new ReturnValue(1,"客户删除成功",null).toString());
+		} else {
+			response.getWriter().write(new ReturnValue(0,"客户删除失败",null).toString());
+		}
+		return null;
 	}
 
 

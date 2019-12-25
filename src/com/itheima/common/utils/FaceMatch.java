@@ -70,7 +70,7 @@ public class FaceMatch {
             return new JSONObject(result);
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }

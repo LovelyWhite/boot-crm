@@ -44,10 +44,11 @@
           <element id="library" level="module" name="taglibs-standard-spec-1.2.5.jar" module-name="boot-crm" />
           <element id="library" level="project" name="mysql-connector-java-8.0.18" />
           <element id="library" level="project" name="fastjson-1.2.56" />
-          <element id="library" level="project" name="lib" />
           <element id="library" level="project" name="HttpClient" />
           <element id="library" level="project" name="aip-java-sdk-4.3.2" />
           <element id="library" level="project" name="json-20160810" />
+          <element id="library" level="project" name="httpclient" />
+          <element id="library" level="project" name="lib" />
         </element>
       </element>
     </root>

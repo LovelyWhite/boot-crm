@@ -3,6 +3,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.itheima.common.utils.FaceMatch;
+import com.itheima.common.utils.ReturnValue;
 import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,20 +40,21 @@ public class UserController {
 				// 将用户对象添加到Session
 				session.setAttribute("USER_SESSION", user);
 				//model.addAttribute("msg", "success");
-				response.getWriter().write("success");
+				response.getWriter().write(new ReturnValue(1,"密码登录成功",session.getAttribute("USER_SESSION")).toString());
 			}
 			else
-				response.getWriter().write("fail");
+				response.getWriter().write(new ReturnValue(0,"密码登陆失败",null).toString());
 			// 返回到登录页面
 			return null;
 		}
 		else if("face".equals(method))
 		{
+			JSONObject result = null;
 			boolean ok = true;
 			ArrayList<User> users = (ArrayList<User>) userService.getUsers();
 			for (User u : users) {
 				if (u.getUser_pic() !=null && !u.getUser_pic().equals("")) {
-					JSONObject result = FaceMatch.match(u.getUser_pic(),pic	);
+					result = FaceMatch.match(u.getUser_pic(),pic);
 					if(result!=null && 0==result.getInt("error_code"))
 					{
 						if (result.getJSONObject("result").getDouble("score") > 90) {
@@ -66,17 +68,18 @@ public class UserController {
 			}
 			if(ok)
 			{
-				response.getWriter().write("not");
+				assert result != null;
+				response.getWriter().write(new ReturnValue(0,"识别失败|error_msg:"+(result!=null?result.getString("error_msg")+"|error_code:"+result.getInt("error_code"):"error"),null).toString());
 			}
 			else
 			{
-				response.getWriter().write("success");
+				response.getWriter().write(new ReturnValue(1,"人脸识别成功", session.getAttribute("USER_SESSION")).toString());
 			}
 			return null;
 		}
 		else
 		{
-			response.getWriter().write("fail");
+			response.getWriter().write(new ReturnValue(0,"请提交正确数据",null).toString());
 			return null;
 		}
 	}
@@ -87,7 +90,7 @@ public class UserController {
 	public String logout(HttpSession session,HttpServletResponse response) throws IOException {
 	    // 清除Session
 	    session.invalidate();
-	    response.getWriter().write("success");
+	    response.getWriter().write(new ReturnValue(1,"success",null).toString());
 	    // 重定向到登录页面的跳转方法
 	    return null;
 	}
@@ -100,9 +103,9 @@ public class UserController {
 		User user = (User) session.getAttribute("USER_SESSION");
 		int rows = userService.setFace(user.getUser_code(),pic);
 		if(rows > 0){
-			return "OK";
+			return new ReturnValue(1,"success",null).toString();
 		}else{
-			return "FAIL";
+			return new ReturnValue(0,"fail",null).toString();
 		}
 	}
 }

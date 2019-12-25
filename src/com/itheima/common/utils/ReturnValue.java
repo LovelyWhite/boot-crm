@@ -2,14 +2,16 @@ package com.itheima.common.utils;
 
 import com.alibaba.fastjson.JSON;
 
+import static com.alibaba.fastjson.serializer.SerializerFeature.DisableCircularReferenceDetect;
+
 public class ReturnValue {
     private int flag;
-    private String data;
+    private String content;
     private Object obj;
 
-    public ReturnValue(int flag, String data, Object obj) {
+    public ReturnValue(int flag, String content, Object obj) {
         this.flag = flag;
-        this.data = data;
+        this.content = content;
         this.obj = obj;
     }
 
@@ -21,12 +23,12 @@ public class ReturnValue {
         this.flag = flag;
     }
 
-    public String getData() {
-        return data;
+    public String getContent() {
+        return content;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Object getObj() {
@@ -39,6 +41,6 @@ public class ReturnValue {
 
     @Override
     public String toString() {
-        return JSON.toJSONString(this);
+        return JSON.toJSONString(this,DisableCircularReferenceDetect);
     }
 }
