@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int setFace(String usercode , String pic){
-		return userDao.setFace(usercode,pic);
+	public int updateUser(User user){
+		return userDao.updateUser(user);
 	}
 
 	@Override

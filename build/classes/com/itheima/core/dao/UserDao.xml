@@ -16,9 +16,10 @@
 	<select id="getUsers" resultType="User" resultMap="ResultMap">
 		select * from sys_user
 	</select>
-	<update id="setFace" parameterType="String">
+	<update id="updateUser" parameterType="User">
 		update sys_user
-		set pic=#{pic}
-		where user_code =#{usercode}
+		set  user_name =#{user_name},
+			 user_pic=#{user_pic}
+		where user_code =#{user_code}
 	</update>
 </mapper>

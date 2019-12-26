@@ -2,12 +2,14 @@ package com.itheima.core.web.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
 import com.itheima.common.utils.ReturnValue;
+import com.itheima.core.po.CustomerNumLineData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,6 +93,15 @@ public class CustomerController {
 		}
 		return null;
 	}
+	@RequestMapping("customerNumChange.do")
+	public String customerNumChange(Integer id,HttpServletResponse response) throws IOException {
+		List<CustomerNumLineData> result = customerService.getCustomerNum();
 
-
+		if (result.size() > 0) {
+			response.getWriter().write(new ReturnValue(1,"查询成功",result).toString());
+		} else {
+			response.getWriter().write(new ReturnValue(0,"无客户存储",null).toString());
+		}
+		return null;
+	}
 }

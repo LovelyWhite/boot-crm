@@ -94,18 +94,15 @@ public class UserController {
 	    // 重定向到登录页面的跳转方法
 	    return null;
 	}
-	/**
-	 * 删除客户
-	 */
-	@RequestMapping("setFace.do")
-	@ResponseBody
-	public String setFace (String pic,HttpSession session) {
-		User user = (User) session.getAttribute("USER_SESSION");
-		int rows = userService.setFace(user.getUser_code(),pic);
+
+	@RequestMapping("updateUser.do")
+	public String setFace (User user,HttpServletResponse response) throws IOException {
+		int rows = userService.updateUser(user);
 		if(rows > 0){
-			return new ReturnValue(1,"success",null).toString();
+			response.getWriter().write( new ReturnValue(1,"保存成功",null).toString());
 		}else{
-			return new ReturnValue(0,"fail",null).toString();
+			response.getWriter().write( new ReturnValue(0,"保存失败",null).toString());
 		}
+		return null;
 	}
 }

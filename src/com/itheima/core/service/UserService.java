@@ -9,6 +9,6 @@ import java.util.List;
 public interface UserService {
 	// 通过账号和密码查询用户
 	public User findUser(String usercode,String password);
-	public int setFace(String usercode , String pic);
+	public int updateUser(User user);
 	public List<User> getUsers();
 }

@@ -7,213 +7,309 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="./css/sb-admin-2.css" rel="stylesheet" />
 	<link href="./css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
     <script src="./js/jquery-1.11.3.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/vue.min.js"></script>
+    <script src="./js/echarts.min.js"></script>
     <script src="./js/sweetalert.min.js"></script>
     <script src="./js/axios.min.js"></script>
     <script type="text/javascript">
+
         window.onload=function () {
 
-			let navbar = new Vue(
-					{
-						el: "#navbar",
-						data: {
-							userSession: {}
-						},
-						methods:
-								{
-									onload() {
-										this.userSession = JSON.parse(sessionStorage.getItem("USER_SESSION"));
-									}
-								}
-					}
-			)
-			let customer = new Vue({
-				el: "#customer",
-				data: {
-					customerFrom: ["电话营销", "网络营销", "老客户"],
-					custIndustry: ["教育培训", "对外贸易", "电子商务", "酒店旅游", "房地产"],
-					custLevel: ["普通客户", "VIP"],
-					cust: [],
-					size: 0,
-					total: 0,
-					totalPage: 0,
-					pages: [],
-					searching: {
-						page: 1,
-						customerName: "",
-						customerFromSelect: "",
-						custIndustrySelect: "",
-						custLevelSelect: ""
-					},
-					customerTemp: {
-						edit_cust_id: "",
-						edit_customerName: "",
-						edit_customerFrom: "",
-						edit_custIndustry: "",
-						edit_custLevel: "",
-						edit_linkMan: "",
-						edit_phone: "",
-						edit_mobile: "",
-						edit_zipcode: "",
-						edit_address: "",
-					}
-				},
-				methods: {
-					onload() {
-						this.search();
-					},
-					search(index) {
-						if (index !== undefined) {
-							this.searching.page = index
-						}
-						axios.post('./customer/list.do', "page=" + this.searching.page +
-								"&custName=" + customer.searching.customerName +
-								"&custSource=" + customer.searching.customerFromSelect +
-								"&custIndustry=" + customer.searching.custIndustrySelect +
-								"&custLevel=" + customer.searching.custLevelSelect)
-								.then(res => {
-									if (1 === res.data.flag) {
-										this.size = res.data.obj.size;
-										this.searching.page = res.data.obj.page;
-										this.total = res.data.obj.total;
-										this.cust = res.data.obj.rows;
-										this.totalPage = Math.floor(this.total / this.size);
-										let rest = this.total % this.size;
-										if (rest > 0) this.totalPage++;
-										let localPages = [];
-										for (let i = 1; i <= this.totalPage; i++) {
-											localPages.push(i);
-										}
-										if (this.totalPage > 5) {
-											if (this.searching.page > this.totalPage - 2) {
-												this.pages = localPages.slice(-5);
-											} else if (this.searching.page < 3) {
-												this.pages = localPages.slice(0, 5);
-											} else {
-												this.pages = localPages.slice(this.searching.page - 3, this.searching.page + 2);
-											}
-										} else
-											this.pages = localPages.slice(0, localPages.length);
-									} else {
-									}
-								})
-					},
-					nextPage() {
-						if (this.searching.page < this.totalPage - 1) {
-							this.searching.page++
-						}
-						this.search()
-					},
-					prevPage() {
-						if (this.searching.page > 1) {
-							this.searching.page--
-						}
-						this.search()
-					},
-					// 创建客户
-					createCustomer() {
-						axios.post('./customer/create.do', $("#new_customer_form").serialize()).then(res => {
-							if (1 === res.data.flag) {
-								swal(res.data.content).then(() => {
-									window.location.reload();
-								})
-							} else {
-								swal(res.data.content).then(() => {
-									window.location.reload();
-								})
-							}
-						});
-					},
-					editCustomer(index) {
-						this.customerTemp = {
-							edit_cust_id: customer.cust[index].cust_id,
-							edit_customerName: customer.cust[index].cust_name,
-							edit_customerFrom: customer.cust[index].cust_source,
-							edit_custIndustry: customer.cust[index].cust_industry,
-							edit_custLevel: customer.cust[index].cust_level,
-							edit_linkMan: customer.cust[index].cust_linkman,
-							edit_phone: customer.cust[index].cust_phone,
-							edit_mobile: customer.cust[index].cust_mobile,
-							edit_zipcode: customer.cust[index].cust_zipcode,
-							edit_address: customer.cust[index].cust_address,
-						}
-					},
-					// 执行修改客户操作
-					updateCustomer() {
-						axios.post('./customer/update.do', $("#edit_customer_form").serialize()).then(res => {
-							if (1 === res.data.flag) {
-								swal(res.data.content).then(() => {
-									window.location.reload();
-								})
-							} else {
-								swal(res.data.content).then(() => {
-									window.location.reload();
-								})
-							}
-						});
+            let wrapper = new Vue(
+                {
+                    el: "#wrapper",
+                    data: {
+                        userSession:{},
+                        customerFrom: ["电话营销", "网络营销", "老客户"],
+                        custIndustry: ["教育培训", "对外贸易", "电子商务", "酒店旅游", "房地产"],
+                        custLevel: ["普通客户", "VIP"],
+                        cust: [],
+                        size: 0,
+                        total: 0,
+                        totalPage: 0,
+                        pages: [],
+                        searching: {
+                            page: 1,
+                            customerName: "",
+                            customerFromSelect: "",
+                            custIndustrySelect: "",
+                            custLevelSelect: ""
+                        },
+                        customerTemp: {
+                            edit_cust_id: "",
+                            edit_customerName: "",
+                            edit_customerFrom: "",
+                            edit_custIndustry: "",
+                            edit_custLevel: "",
+                            edit_linkMan: "",
+                            edit_phone: "",
+                            edit_mobile: "",
+                            edit_zipcode: "",
+                            edit_address: "",
+                        },
+                        headResult:'',//选择框图像
+                        charts:[]
+                    },
+                    methods:
+                        {
+                            onload() {
+                                this.userSession = JSON.parse(sessionStorage.getItem("USER_SESSION"));
+                                if(undefined ===this.userSession.user_pic)
+                                {
+                                    this.headResult = './images/userhead.jpg';
+                                    this.userSession.user_pic='./images/userhead.jpg'
+                                }
+                                else
+                                {
+                                    this.headResult = this.userSession.user_pic
+                                }
+                                this.search();
+                                this.initCharts();
+                            },
+                            initCharts()
+                            {
+                                if(undefined === this.charts.customerNumLine)
+                                {
+                                    axios.post("./customer/customerNumChange.do")
+                                        .then((res) => {
+                                            console.log(res.data);
+                                            if (1 === res.data.flag) {
 
-					},
-					// 删除客户
-					deleteCustomer(id) {
-						swal("确实要删除该客户吗?", {
-							dangerMode: true,
-							buttons: true,
-						}).then(() => {
-							axios.post('./customer/delete.do', "id=" + id)
-									.then(res => {
-										if (1 === res.data.flag) {
-											swal(res.data.content).then(() => {
-												window.location.reload();
-											})
-										} else {
-											swal(res.data.content).then(() => {
-												window.location.reload();
-											})
-										}
-									})
-						})
-					},
-					clearCustomer() {
-						this.customerTemp = {
-							edit_cust_id: "",
-							edit_customerName: "",
-							edit_customerFrom: "",
-							edit_custIndustry: "",
-							edit_custLevel: "",
-							edit_linkMan: "",
-							edit_phone: "",
-							edit_mobile: "",
-							edit_zipcode: "",
-							edit_address: "",
-						}
-					}
-				}
-			});
+                                                    let key=[];
+                                                    let value=[];
+                                                    res.data.obj.forEach(e=>
+                                                    {
+                                                        key.push(e.cust_createtime)
+                                                        value.push(e.count);
+                                                    });
+                                                    console.log(key,value);
+                                                let option = {
+                                                    xAxis: {
+                                                        type: 'category',
+                                                        boundaryGap: false,
+                                                        data:key
+                                                    },
+                                                    yAxis: {
+                                                        type: 'value'
+                                                    },
+                                                    series: [{
+                                                        data: value,
+                                                        type: 'line',
+                                                        areaStyle: {}
+                                                    }],
+                                                    dataZoom: [
+                                                        {
+                                                            type: 'inside',
+                                                            realtime: true,
 
-			new Vue({
-				el: "#product",
-				data: {},
-				method: {}
+                                                        },
+                                                        {
+                                                            type:'slider',
+                                                            start:0,
+                                                            end:50
+                                                        }
+                                                    ]
+                                                };
+                                                this.charts.customerNumLine = echarts.init(document.getElementById('customerNumLine'));
+                                                this.charts.customerNumLine.setOption(option);
+                                                wrapper.charts.customerNumLine.resize();
+                                            } else {
+                                                swal(res.data ? res.data.content:"未知错误")
+                                            }
+                                        });
+                                }
+                            },
+                            saveUserInfo(){
+                                let t = this.userSession;
+                                if("./images/userhead.jpg"===t.user_pic)
+                                {
+                                    delete t.user_pic
+                                }
+                                axios.post("./request/updateUser.do", objectToQueryString(t))
+                                    .then((res) => {
+                                        console.log(res.data)
+                                        if (1 === res.data.flag) {
+                                            swal(res.data ? res.data.content:"未知错误")
+                                            sessionStorage.setItem("USER_SESSION",JSON.stringify(this.userSession))
+                                        } else {
+                                            swal(res.data ? res.data.content:"未知错误")
+                                        }
+                                    })
+                            },
+                            search(index) {
+                                if (index !== undefined) {
+                                    this.searching.page = index
+                                }
+                                axios.post('./customer/list.do', "page=" + this.searching.page +
+                                    "&custName=" + wrapper.searching.customerName +
+                                    "&custSource=" + wrapper.searching.customerFromSelect +
+                                    "&custIndustry=" + wrapper.searching.custIndustrySelect +
+                                    "&custLevel=" + wrapper.searching.custLevelSelect)
+                                    .then(res => {
+                                        if (1 === res.data.flag) {
+                                            this.size = res.data.obj.size;
+                                            this.searching.page = res.data.obj.page;
+                                            this.total = res.data.obj.total;
+                                            this.cust = res.data.obj.rows;
+                                            this.totalPage = Math.floor(this.total / this.size);
+                                            let rest = this.total % this.size;
+                                            if (rest > 0) this.totalPage++;
+                                            let localPages = [];
+                                            for (let i = 1; i <= this.totalPage; i++) {
+                                                localPages.push(i);
+                                            }
+                                            if (this.totalPage > 5) {
+                                                if (this.searching.page > this.totalPage - 2) {
+                                                    this.pages = localPages.slice(-5);
+                                                } else if (this.searching.page < 3) {
+                                                    this.pages = localPages.slice(0, 5);
+                                                } else {
+                                                    this.pages = localPages.slice(this.searching.page - 3, this.searching.page + 2);
+                                                }
+                                            } else
+                                                this.pages = localPages.slice(0, localPages.length);
+                                        } else {
+                                        }
+                                    })
+                            },
+                            nextPage() {
+                                if (this.searching.page < this.totalPage - 1) {
+                                    this.searching.page++
+                                }
+                                this.search()
+                            },
+                            prevPage() {
+                                if (this.searching.page > 1) {
+                                    this.searching.page--
+                                }
+                                this.search()
+                            },
+                            // 创建客户
+                            createCustomer() {
+                                axios.post('./customer/create.do', $("#new_customer_form").serialize()).then(res => {
+                                    if (1 === res.data.flag) {
+                                        swal(res.data.content).then(() => {
+                                            window.location.reload();
+                                        })
+                                    } else {
+                                        swal(res.data.content).then(() => {
+                                            window.location.reload();
+                                        })
+                                    }
+                                });
+                            },
+                            editCustomer(index) {
+                                this.customerTemp = {
+                                    edit_cust_id: this.cust[index].cust_id,
+                                    edit_customerName: this.cust[index].cust_name,
+                                    edit_customerFrom: this.cust[index].cust_source,
+                                    edit_custIndustry: this.cust[index].cust_industry,
+                                    edit_custLevel: this.cust[index].cust_level,
+                                    edit_linkMan: this.cust[index].cust_linkman,
+                                    edit_phone: this.cust[index].cust_phone,
+                                    edit_mobile: this.cust[index].cust_mobile,
+                                    edit_zipcode: this.cust[index].cust_zipcode,
+                                    edit_address: this.cust[index].cust_address,
+                                }
+                            },
+                            // 执行修改客户操作
+                            updateCustomer() {
+                                axios.post('./customer/update.do', $("#edit_customer_form").serialize()).then(res => {
+                                    if (1 === res.data.flag) {
+                                        swal(res.data.content).then(() => {
+                                            window.location.reload();
+                                        })
+                                    } else {
+                                        swal(res.data.content).then(() => {
+                                            window.location.reload();
+                                        })
+                                    }
+                                });
 
-			});
-			navbar.onload();
-			customer.onload();
-		};
+                            },
+                            // 删除客户
+                            deleteCustomer(id) {
+                                swal("确实要删除该客户吗?", {
+                                    dangerMode: true,
+                                    buttons: true,
+                                }).then(() => {
+                                    axios.post('./customer/delete.do', "id=" + id)
+                                        .then(res => {
+                                            if (1 === res.data.flag) {
+                                                swal(res.data.content).then(() => {
+                                                    window.location.reload();
+                                                })
+                                            } else {
+                                                swal(res.data.content).then(() => {
+                                                    window.location.reload();
+                                                })
+                                            }
+                                        })
+                                })
+                            },
+                            clearCustomer() {
+                                this.customerTemp = {
+                                    edit_cust_id: "",
+                                    edit_customerName: "",
+                                    edit_customerFrom: "",
+                                    edit_custIndustry: "",
+                                    edit_custLevel: "",
+                                    edit_linkMan: "",
+                                    edit_phone: "",
+                                    edit_mobile: "",
+                                    edit_zipcode: "",
+                                    edit_address: "",
+                                }
+                            },
+                            handleFile(e)
+                            {
+                                let file =e.target.files[0];
+                                if("image/jpeg"===file.type)
+                                {
+                                    if(file.size<1024*1024)
+                                    {
+                                        let reader = new FileReader();
+                                        reader.readAsDataURL(file);
+                                        reader.onload = function(e) {
+                                            wrapper.headResult =e.target.result;
+                                            Vue.set(wrapper.userSession,"user_pic",wrapper.headResult);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        swal("文件太大,请上传小于1M大小的文件");
+                                    }
+                                }
+                                else
+                                {
+                                    swal("文件格式不正确");
+                                }
+
+                            }
+                        }
+                }
+            );
+            wrapper.onload();
+            window.onresize = function () {
+                wrapper.charts.customerNumLine.resize();
+            }
+        };
         function logout() {
-			$.ajax({
-				url: "./request/logout.do",
-				method: "post"
-			}).then(() => {
-				swal("退出成功").then(() => {
-					window.location.href = "./index.html"
-				});
+            $.ajax({
+                url: "./request/logout.do",
+                method: "post"
+            }).then(() => {
+                swal("退出成功").then(() => {
+                    window.location.href = "./index.html"
+                });
 
-			}).catch(() => {
-				swal("退出失败");
-			})
-		}
+            }).catch(() => {
+                swal("退出失败");
+            })
+        }
     </script>
 </head>
 <body>
@@ -228,7 +324,7 @@
 		</button>
 		<a class="navbar-brand" href="./index.html">BOOT-CRM</a>
 	</div>
-	  <div id="navbar" class="collapse navbar-collapse">
+	  <div class="collapse navbar-collapse">
 		  <ul class="nav navbar-top-links navbar-right">
 			  <li class="dropdown">
 				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -336,8 +432,8 @@
 					  <i class="fa fa-caret-down"></i>
 				  </a>
 				  <ul class="dropdown-menu dropdown-user">
-					  <li>
-						  <a href="#"><i class="fa fa-user fa-fw"></i>
+					  <li >
+                          <a data-toggle="tab" href="#center"><i class="fa fa-user fa-fw"></i>
 						  用户:{{userSession.user_name}}
 						  </a>
 					  </li>
@@ -359,19 +455,10 @@
 							  <i class="fa fa-edit fa-fw"></i> 客户管理
 						  </a>
 					  </li>
-					  <li>
-						  <a data-toggle="tab" href="#product">
-							  <i class="fa fa-dashboard fa-fw" ></i> 产品管理
-						  </a>
-					  </li>
+
 					  <li>
 						  <a data-toggle="tab" href="#view">
 							  <i class="fa fa-tasks fa-fw" aria-hidden="true"></i> 资源可视化
-						  </a>
-					  </li>
-					  <li>
-						  <a data-toggle="tab" href="#order">
-							  <i class="fa fa-folder-open-o fa-fw" aria-hidden="true"></i> 工单系统
 						  </a>
 					  </li>
 				  </ul>
@@ -644,15 +731,53 @@
 					</div>
 				</div>
             </div>
-            <div class="tab-pane" id="product">
-				<span>产品</span>
-            </div>
+
 			<div class="tab-pane" id="view">
-				<span>资源可视化</span>
+                <div class="panel panel-default">
+                    <div class="panel-heading">客户人数数量增长</div>
+                    <div class="panel-body view-container">
+                        <div id="customerNumLine" style="width: 600px;height: 300px"></div>
+                    </div>
+                </div>
 			</div>
-			<div class="tab-pane" id="order">
-				<span>订单</span>
-			</div>
+
+            <div class="tab-pane" id="center">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-2">
+                            <a href="#" class="thumbnail head-max-width">
+                                <img class="head-max-width" @click="$('#i-file').click();" :src="headResult" alt="...">
+                                <input type="file" name="file" id='i-file' @change="handleFile" accept=".jpg, .jpeg" style="display: none">
+                            </a>
+                        </div>
+                        <div class="col-md-5" >
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10"><p class="form-control-static" >{{userSession.user_code}}</p></div>
+                                </div>
+                                <div class="form-group">
+                                        <label class="col-sm-2 control-label">姓名</label>
+                                    <div class="col-sm-10">
+
+                                        <input class="form-control" v-model="userSession.user_name" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                        <label class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-10">
+
+                                        <input class="form-control" v-model="userSession.user_state" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div>
+                        <button class="btn btn-primary pull-right" @click="saveUserInfo">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 	</div>
 </div>

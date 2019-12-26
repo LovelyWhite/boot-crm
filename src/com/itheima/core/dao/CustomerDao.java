@@ -1,6 +1,8 @@
 package com.itheima.core.dao;
 import java.util.List;
 import com.itheima.core.po.Customer;
+import com.itheima.core.po.CustomerNumLineData;
+
 /**
  * Customer接口
  */
@@ -19,4 +21,5 @@ public interface CustomerDao {
 	// 删除客户
 	int deleteCustomer (Integer id);
 
+	public List<CustomerNumLineData> getCustomerNum();
 }

@@ -1,6 +1,10 @@
 package com.itheima.core.service;
 import com.itheima.common.utils.Page;
 import com.itheima.core.po.Customer;
+import com.itheima.core.po.CustomerNumLineData;
+
+import java.util.List;
+
 public interface CustomerService {
 	// 查询客户列表
 	public Page<Customer> findCustomerList(Integer page, Integer rows,
@@ -16,4 +20,5 @@ public interface CustomerService {
 	// 删除客户
 	public int deleteCustomer(Integer id);
 
+	public List<CustomerNumLineData> getCustomerNum();
 }

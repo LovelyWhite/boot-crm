@@ -12,6 +12,6 @@ public interface UserDao {
 	 * 通过账号和密码查询用户
 	 */
 	public User findUser(@Param("usercode") String usercode, @Param("password") String password);
-	public int setFace(@Param("usercode") String usercode , @Param("pic") String pic);
+	public int updateUser(User user);
 	public List<User> getUsers();
 }

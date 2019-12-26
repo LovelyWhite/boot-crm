@@ -1,5 +1,7 @@
 package com.itheima.core.service.impl;
 import java.util.List;
+
+import com.itheima.core.po.CustomerNumLineData;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,5 +85,10 @@ public class CustomerServiceImpl implements CustomerService {
 	    return customerDao.deleteCustomer(id);	
 	}
 
-	
+	@Override
+	public List<CustomerNumLineData> getCustomerNum() {
+		return customerDao.getCustomerNum();
+	}
+
+
 }
