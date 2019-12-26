@@ -16,6 +16,11 @@
     <script src="./js/axios.min.js"></script>
     <script type="text/javascript">
 
+		function objectToQueryString(obj) {
+			return Object.keys(obj).map(function (key) {
+				return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(obj[key]));
+			}).join('&');
+		}
         window.onload=function () {
 
             let wrapper = new Vue(
@@ -27,6 +32,7 @@
                         custIndustry: ["教育培训", "对外贸易", "电子商务", "酒店旅游", "房地产"],
                         custLevel: ["普通客户", "VIP"],
                         cust: [],
+						product: [],
                         size: 0,
                         total: 0,
                         totalPage: 0,
@@ -67,38 +73,57 @@
                                     this.headResult = this.userSession.user_pic
                                 }
                                 this.search();
-                                this.initCharts();
+								this.getProducts();
                             },
                             initCharts()
                             {
                                 if(undefined === this.charts.customerNumLine)
                                 {
+                                	let message = ""
                                     axios.post("./customer/customerNumChange.do")
                                         .then((res) => {
-                                            console.log(res.data);
                                             if (1 === res.data.flag) {
 
                                                     let key=[];
                                                     let value=[];
                                                     res.data.obj.forEach(e=>
                                                     {
-                                                        key.push(e.cust_createtime)
+                                                        key.push(e.cust_createtime);
                                                         value.push(e.count);
                                                     });
                                                     console.log(key,value);
                                                 let option = {
+													tooltip: {
+														trigger: 'axis',
+														axisPointer: {
+															type: 'cross',
+															crossStyle: {
+																color: '#999'
+															}
+														}
+													},
+													toolbox: {
+														feature: {
+															saveAsImage: {show: true}
+														}
+													},
                                                     xAxis: {
+														name:"日期",
                                                         type: 'category',
                                                         boundaryGap: false,
-                                                        data:key
+                                                        data:key,
                                                     },
                                                     yAxis: {
-                                                        type: 'value'
+														name:'新增人数',
+                                                        type: 'value',
+														axisLabel: {
+															formatter: '{value} 人'
+														}
                                                     },
                                                     series: [{
+														name:"新增人数",
                                                         data: value,
-                                                        type: 'line',
-                                                        areaStyle: {}
+                                                        type: 'line'
                                                     }],
                                                     dataZoom: [
                                                         {
@@ -117,10 +142,114 @@
                                                 this.charts.customerNumLine.setOption(option);
                                                 wrapper.charts.customerNumLine.resize();
                                             } else {
-                                                swal(res.data ? res.data.content:"未知错误")
+                                                message+="chart1:"+res.data ? res.data.content:"未知错误"
                                             }
                                         });
                                 }
+
+								if(undefined === this.charts.productNumBar)
+								{
+									let key=[];
+									let value1=[];
+									let value2=[];
+									this.product.forEach(e=>
+									{
+										key.push(e.product_name);
+										value1.push(e.product_sell_num);
+										value2.push(e.product_price);
+									});
+									if(0!==this.product.size)
+									{
+										let option = {
+											tooltip: {
+												trigger: 'axis',
+												axisPointer: {
+													type: 'cross',
+													crossStyle: {
+														color: '#999'
+													},
+													label:
+															{
+																show:true
+															}
+												}
+											},
+											toolbox: {
+												feature: {
+													dataView: {show: true, readOnly: false},
+													magicType: {show: true, type: ['line', 'bar']},
+													restore: {show: true},
+													saveAsImage: {show: true}
+												}
+											},
+											legend: {
+												data:['销售量','价格']
+											},
+											xAxis: [
+												{
+													type: 'category',
+													data: key,
+													axisPointer: {
+														type: 'shadow'
+													}
+												}
+											],
+											yAxis: [
+												{
+													type: 'value',
+													name: '销售量',
+													min: 0,
+													interval: 30,
+													axisLabel: {
+														formatter: '{value} 台'
+													}
+												},
+												{
+													type: 'value',
+													name: '价格',
+													min: 0,
+													interval: 700,
+													axisLabel: {
+														formatter: '{value} 元'
+													}
+												}
+											],
+											dataZoom: [
+												{
+													type: 'inside',
+													realtime: true,
+
+												},
+												{
+													type:'slider',
+													start:0,
+													end:50
+												}
+											],
+											series: [
+												{
+													name:'销售量',
+													type:'bar',
+													data:value1
+												},
+												{
+													name:'价格',
+													type:'line',
+													yAxisIndex: 1,
+													data:value2
+												}
+											]
+										};
+										this.charts.productNumBar = echarts.init(document.getElementById('productNumBar'));
+										this.charts.productNumBar.setOption(option);
+										console.log(this.charts.productNumBar)
+										wrapper.charts.productNumBar.resize();
+									}
+									else
+									{
+										message+="\nchart2:"+"无产品数据"
+									}
+								}
                             },
                             saveUserInfo(){
                                 let t = this.userSession;
@@ -130,7 +259,6 @@
                                 }
                                 axios.post("./request/updateUser.do", objectToQueryString(t))
                                     .then((res) => {
-                                        console.log(res.data)
                                         if (1 === res.data.flag) {
                                             swal(res.data ? res.data.content:"未知错误")
                                             sessionStorage.setItem("USER_SESSION",JSON.stringify(this.userSession))
@@ -139,6 +267,21 @@
                                         }
                                     })
                             },
+							getProducts()
+							{
+								axios.post('./product/getproducts.do')
+								.then(res=>
+								{
+									console.log(res);
+									if (1 === res.data.flag) {
+										this.product = res.data.obj
+									}
+									else
+									{
+										swal(res.data ? res.data.content:"未知错误")
+									}
+								})
+							},
                             search(index) {
                                 if (index !== undefined) {
                                     this.searching.page = index
@@ -292,9 +435,16 @@
                         }
                 }
             );
+			var $nav = $("#wrapper");
+			$nav.on("show.bs.tab", "[href='#view']", function () {
+				wrapper.initCharts();
+			});
             wrapper.onload();
             window.onresize = function () {
-                wrapper.charts.customerNumLine.resize();
+				wrapper.charts.forEach(e=>
+				{
+					e && e.resize();
+				})
             }
         };
         function logout() {
@@ -324,7 +474,7 @@
 		</button>
 		<a class="navbar-brand" href="./index.html">BOOT-CRM</a>
 	</div>
-	  <div class="collapse navbar-collapse">
+	  <div id="navbar" class="collapse navbar-collapse">
 		  <ul class="nav navbar-top-links navbar-right">
 			  <li class="dropdown">
 				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -455,7 +605,11 @@
 							  <i class="fa fa-edit fa-fw"></i> 客户管理
 						  </a>
 					  </li>
-
+					  <li>
+						  <a data-toggle="tab" href="#product">
+							  <i class="fa fa-tasks fa-fw" aria-hidden="true"></i> 产品信息
+						  </a>
+					  </li>
 					  <li>
 						  <a data-toggle="tab" href="#view">
 							  <i class="fa fa-tasks fa-fw" aria-hidden="true"></i> 资源可视化
@@ -734,11 +888,48 @@
 
 			<div class="tab-pane" id="view">
                 <div class="panel panel-default">
-                    <div class="panel-heading">客户人数数量增长</div>
+                    <div class="panel-heading">客户人数增加情况</div>
                     <div class="panel-body view-container">
                         <div id="customerNumLine" style="width: 600px;height: 300px"></div>
                     </div>
                 </div>
+				<div class="panel panel-default">
+					<div class="panel-heading">产品售出/价格情况</div>
+					<div class="panel-body view-container">
+						<div id="productNumBar" style="width: 600px;height: 300px"></div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="product">
+				<div class="panel panel-default">
+					<div class="panel-heading">产品信息列表</div>
+					<div class="panel-body">
+						<table class="table table-bordered table-striped">
+							<thead>
+							<tr>
+								<th>编号</th>
+								<th>产品名称</th>
+								<th>产品价格(元)</th>
+								<th>产品总数量</th>
+								<th>产品售出数量</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="(item,index) in product">
+								<td>{{item.product_id}}</td>
+								<td>{{item.product_name}}</td>
+								<td>{{item.product_price}}</td>
+								<td>{{item.product_num}}</td>
+								<td>{{item.product_sell_num}}</td>
+<!--								<td>-->
+<!--									<a href="#" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#customerEditDialog" @click= "editCustomer(index)">修改</a>-->
+<!--									<a href="#" class="btn btn-danger btn-xs" @click="deleteCustomer(item.cust_id)">删除</a>-->
+<!--								</td>-->
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 
             <div class="tab-pane" id="center">
@@ -746,11 +937,11 @@
                     <div class="panel-body">
                         <div class="col-md-2">
                             <a href="#" class="thumbnail head-max-width">
-                                <img class="head-max-width" @click="$('#i-file').click();" :src="headResult" alt="...">
+                                <img class="head-max-width" style="object-fit: cover;" @click="$('#i-file').click();" :src="headResult" alt="...">
                                 <input type="file" name="file" id='i-file' @change="handleFile" accept=".jpg, .jpeg" style="display: none">
                             </a>
                         </div>
-                        <div class="col-md-5" >
+                        <div class="col-md-6" >
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">账号</label>
@@ -772,7 +963,7 @@
                                 </div>
                             </div>
                         </div>
-                    <div>
+                    <div class="col-md-4">
                         <button class="btn btn-primary pull-right" @click="saveUserInfo">保存</button>
                     </div>
                 </div>
