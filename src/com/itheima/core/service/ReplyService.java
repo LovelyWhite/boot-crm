@@ -2,6 +2,7 @@ package com.itheima.core.service;
 
 
 import com.itheima.core.po.Reply;
+import com.itheima.core.po.ReplyData;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
  */
 public interface ReplyService {
 
-	public List<Reply> getReplies();
+	public List<ReplyData> getReplies();
 }

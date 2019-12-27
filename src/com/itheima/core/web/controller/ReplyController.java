@@ -2,6 +2,7 @@ package com.itheima.core.web.controller;
 
 import com.itheima.common.utils.ReturnValue;
 import com.itheima.core.po.Reply;
+import com.itheima.core.po.ReplyData;
 import com.itheima.core.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +14,14 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/reply")
 public class ReplyController {
     @Autowired
     ReplyService replyService;
 
     @RequestMapping(value = "/getreplies.do", method = RequestMethod.POST)
     String getProducts(HttpServletResponse response) throws IOException {
-        List<Reply> replies =  replyService.getReplies();
+        List<ReplyData> replies =  replyService.getReplies();
         if(replies.size()>0)
         {
             response.getWriter().write(new ReturnValue(1,"获取评论信息成功",replies).toString());

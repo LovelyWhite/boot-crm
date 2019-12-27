@@ -21,6 +21,22 @@
 				return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(obj[key]));
 			}).join('&');
 		}
+        function format (fmt) {
+            var o = {
+                "M+": this.getMonth() + 1, // 月份
+                "d+": this.getDate(), // 日
+                "h+": this.getHours(), // 小时
+                "m+": this.getMinutes(), // 分
+                "s+": this.getSeconds(), // 秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+                "S": this.getMilliseconds() // 毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + ""));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
         window.onload=function () {
 
             let wrapper = new Vue(
@@ -33,6 +49,7 @@
                         custLevel: ["普通客户", "VIP"],
                         cust: [],
 						product: [],
+						reply:[],
                         size: 0,
                         total: 0,
                         totalPage: 0,
@@ -74,9 +91,9 @@
                                 }
                                 this.search();
 								this.getProducts();
+                                this.getReplies();
                             },
-                            initCharts()
-                            {
+                            initCharts() {
                                 if(undefined === this.charts.customerNumLine)
                                 {
                                 	let message = ""
@@ -267,8 +284,7 @@
                                         }
                                     })
                             },
-							getProducts()
-							{
+							getProducts() {
 								axios.post('./product/getproducts.do')
 								.then(res=>
 								{
@@ -282,6 +298,47 @@
 									}
 								})
 							},
+                            getReplies() {
+                                axios.post('./reply/getreplies.do')
+                                    .then(res=>
+                                    {
+                                        console.log(res);
+                                        if (1 === res.data.flag) {
+                                            let name=[];
+                                            let result = res.data.obj;
+                                            result.forEach(e=> {
+											    if(name.indexOf(e)<=-1)
+												{
+                                                    name.push(e.product_name)
+												}
+											})
+											name.forEach(e=> {
+                                                let temp={
+                                                    name:e,
+                                                    replies:[]
+                                                };
+                                                for (let i = 0; i <  result.length; i++) {
+                                                    if(e === result[i].product_name) {
+                                                        let temp1 ={
+                                                            reply_id:result[i].reply_id,
+                                                            cust_id:result[i].cust_id,
+                                                            product_id:result[i].product_id,
+                                                            reply_comment:result[i].reply_comment,
+                                                            reply_time:format(result[i].reply_time,'YYYY-MM-DD HH:ii:ss')
+                                                        }
+                                                        temp.replies.push(temp1);
+													}
+                                                }
+                                                wrapper.reply.push(temp);
+											})
+											console.log(this.reply);
+                                        }
+                                        else
+                                        {
+                                            swal(res.data ? res.data.content:"未知错误")
+                                        }
+                                    })
+                            },
                             search(index) {
                                 if (index !== undefined) {
                                     this.searching.page = index
@@ -478,106 +535,6 @@
 		  <ul class="nav navbar-top-links navbar-right">
 			  <li class="dropdown">
 				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					  <i class="fa fa-tasks fa-fw"></i>
-					  <i class="fa fa-caret-down"></i>
-				  </a>
-				  <ul class="dropdown-menu dropdown-tasks">
-					  <li>
-						  <a href="#">
-							  <div>
-								  <p>
-									  <strong>任务 1</strong>
-									  <span class="pull-right text-muted">完成40%</span>
-								  </p>
-								  <div class="progress progress-striped active">
-									  <div class="progress-bar progress-bar-success"
-										   role="progressbar" aria-valuenow="40" aria-valuemin="0"
-										   aria-valuemax="100" style="width: 40%">
-										  <span class="sr-only">完成40%</span>
-									  </div>
-								  </div>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <p>
-									  <strong>任务 2</strong>
-									  <span class="pull-right text-muted">完成20%</span>
-								  </p>
-								  <div class="progress progress-striped active">
-									  <div class="progress-bar progress-bar-info" role="progressbar"
-										   aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
-										   style="width: 20%">
-										  <span class="sr-only">完成20%</span>
-									  </div>
-								  </div>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a class="text-center" href="#">
-							  <strong>查看所有任务</strong>
-							  <i class="fa fa-angle-right"></i>
-						  </a>
-					  </li>
-				  </ul>
-			  </li>
-			  <li class="dropdown">
-				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-					  <i class="fa fa-bell fa-fw"></i>
-					  <i class="fa fa-caret-down"></i>
-				  </a>
-				  <ul class="dropdown-menu dropdown-alerts">
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-comment fa-fw"></i> 新回复
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-envelope fa-fw"></i> 新消息
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-tasks fa-fw"></i> 新任务
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a href="#">
-							  <div>
-								  <i class="fa fa-upload fa-fw"></i> 服务器重启
-								  <span class="pull-right text-muted small">4分钟之前</span>
-							  </div>
-						  </a>
-					  </li>
-					  <li class="divider"></li>
-					  <li>
-						  <a class="text-center" href="#">
-							  <strong>查看所有提醒</strong>
-							  <i class="fa fa-angle-right"></i>
-						  </a>
-					  </li>
-				  </ul>
-			  </li>
-			  <li class="dropdown">
-				  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					  <i class="fa fa-user fa-fw"></i>
 					  <i class="fa fa-caret-down"></i>
 				  </a>
@@ -587,7 +544,6 @@
 						  用户:{{userSession.user_name}}
 						  </a>
 					  </li>
-					  <li><a href="#"><i class="fa fa-gear fa-fw"></i> 系统设置</a></li>
 					  <li class="divider"></li>
 					  <li>
 						  <a href="#" onclick="logout();">
@@ -607,12 +563,17 @@
 					  </li>
 					  <li>
 						  <a data-toggle="tab" href="#product">
-							  <i class="fa fa-tasks fa-fw" aria-hidden="true"></i> 产品信息
+							  <i class="fa fa-laptop fa-fw" aria-hidden="true"></i> 产品信息
 						  </a>
 					  </li>
 					  <li>
 						  <a data-toggle="tab" href="#view">
-							  <i class="fa fa-tasks fa-fw" aria-hidden="true"></i> 资源可视化
+							  <i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> 资源可视化
+						  </a>
+					  </li>
+					  <li>
+						  <a data-toggle="tab" href="#reply">
+							  <i class="fa fa-comment fa-fw" aria-hidden="true"></i> 回复
 						  </a>
 					  </li>
 				  </ul>
@@ -885,7 +846,6 @@
 					</div>
 				</div>
             </div>
-
 			<div class="tab-pane" id="view">
                 <div class="panel panel-default">
                     <div class="panel-heading">客户人数增加情况</div>
@@ -931,7 +891,6 @@
 					</div>
 				</div>
 			</div>
-
             <div class="tab-pane" id="center">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -968,7 +927,27 @@
                     </div>
                 </div>
             </div>
-        </div>
+        	</div>
+			<div class="tab-pane" id="reply">
+				<div v-for="(r,index) in reply" class="panel panel-default">
+					<div class="panel-heading">产品：{{r.name}}</div>
+					<div class="panel-body">
+						<div v-for="(i,index) in r.replies" class="panel panel-default">
+							<div class="panel-body">
+								<div class="row">
+									<span style="margin-left: 20px"><label>客户ID：</label>{{i.cust_id}}</span>
+								</div>
+								<div class="row">
+									<span style="margin-left: 20px"><label>评论内容：</label>{{i.reply_comment}}</span>
+								</div>
+								<div class="row">
+									<span style="margin-left: 20px"><label>评论时间：</label>{{i.reply_time}}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
 	</div>
 </div>

@@ -2,6 +2,7 @@ package com.itheima.core.service.impl;
 
 import com.itheima.core.dao.ReplyDao;
 import com.itheima.core.po.Reply;
+import com.itheima.core.po.ReplyData;
 import com.itheima.core.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Autowired
 	private ReplyDao replyDao;
 	@Override
-	public List<Reply> getReplies() {
+	public List<ReplyData> getReplies() {
 		return replyDao.getReplies();
 	}
 }

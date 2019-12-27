@@ -2,7 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itheima.core.dao.ReplyDao" >
-	<select id="getProducts" resultType="Product">
-		select * from product
+	<select id="getReplies" resultType="ReplyData">
+		select reply_id,
+			   cust_id,
+			   reply.product_id,
+			   reply_comment,
+			   reply_time,
+			   product_name
+		from reply,product
+		where reply.product_id = product.product_id
 	</select>
 </mapper>
