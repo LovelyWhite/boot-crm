@@ -79,7 +79,7 @@
                                 }
                                 else {
                                     if (this.usercode === "" || this.password === "") {
-                                        swal("密码不能为空");
+                                        swal("账号/密码不能为空");
                                     } else {
                                         axios.post("./request/login.do",
                                             "usercode=" + this.usercode + "&password=" + this.password + "&method=password")

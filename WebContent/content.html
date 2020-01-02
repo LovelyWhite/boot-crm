@@ -21,22 +21,22 @@
 				return "".concat(encodeURIComponent(key), "=").concat(encodeURIComponent(obj[key]));
 			}).join('&');
 		}
-        function format (fmt) {
-            var o = {
-                "M+": this.getMonth() + 1, // 月份
-                "d+": this.getDate(), // 日
-                "h+": this.getHours(), // 小时
-                "m+": this.getMinutes(), // 分
-                "s+": this.getSeconds(), // 秒
-                "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
-                "S": this.getMilliseconds() // 毫秒
-            };
-            if (/(y+)/.test(fmt))
-                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + ""));
-            for (var k in o)
-                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return fmt;
-        }
+		Date.prototype.Format = function (fmt) {
+			var o = {
+				"M+": this.getMonth() + 1, // 月份
+				"d+": this.getDate(), // 日
+				"h+": this.getHours(), // 小时
+				"m+": this.getMinutes(), // 分
+				"s+": this.getSeconds(), // 秒
+				"q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+				"S": this.getMilliseconds() // 毫秒
+			};
+			if (/(y+)/.test(fmt))
+				fmt = fmt.replace(RegExp.$1, (this.getFullYear() + ""));
+			for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			return fmt;
+		}
         window.onload=function () {
 
             let wrapper = new Vue(
@@ -90,8 +90,6 @@
                                     this.headResult = this.userSession.user_pic
                                 }
                                 this.search();
-								this.getProducts();
-                                this.getReplies();
                             },
                             initCharts() {
                                 if(undefined === this.charts.customerNumLine)
@@ -302,6 +300,7 @@
                                 axios.post('./reply/getreplies.do')
                                     .then(res=>
                                     {
+                                    	this.reply = [];
                                         console.log(res);
                                         if (1 === res.data.flag) {
                                             let name=[];
@@ -324,7 +323,7 @@
                                                             cust_id:result[i].cust_id,
                                                             product_id:result[i].product_id,
                                                             reply_comment:result[i].reply_comment,
-                                                            reply_time:format(result[i].reply_time,'YYYY-MM-DD HH:ii:ss')
+                                                            reply_time:new Date(result[i].reply_time).Format('yy-MM-dd hh:mm:ss')
                                                         }
                                                         temp.replies.push(temp1);
 													}
@@ -333,8 +332,7 @@
 											})
 											console.log(this.reply);
                                         }
-                                        else
-                                        {
+                                        else {
                                             swal(res.data ? res.data.content:"未知错误")
                                         }
                                     })
@@ -464,8 +462,7 @@
                                     edit_address: "",
                                 }
                             },
-                            handleFile(e)
-                            {
+                            handleFile(e) {
                                 let file =e.target.files[0];
                                 if("image/jpeg"===file.type)
                                 {
@@ -495,6 +492,12 @@
 			var $nav = $("#wrapper");
 			$nav.on("show.bs.tab", "[href='#view']", function () {
 				wrapper.initCharts();
+			});
+			$nav.on("show.bs.tab", "[href='#reply']", function () {
+				wrapper.getReplies();
+			});
+			$nav.on("show.bs.tab", "[href='#product']", function () {
+				wrapper.getProducts();
 			});
             wrapper.onload();
             window.onresize = function () {
